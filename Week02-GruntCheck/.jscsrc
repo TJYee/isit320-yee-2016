@@ -1,0 +1,7 @@
+{
+    "preset": "google",
+    "validateIndentation": 4,
+    "excludeFiles": ["**/node_modules/**", "**/components/**", "**/bitly-links.js"],
+    "requireCamelCaseOrUpperCaseIdentifiers": false,
+    "maximumLineLength": 120
+}
