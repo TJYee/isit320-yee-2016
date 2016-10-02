@@ -29,6 +29,7 @@
     "grunt-jscs": "^2.8.0",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
-    "jasmine-spec-reporter": "^2.4.0"
+    "jasmine-spec-reporter": "^2.4.0",
+	"jshint-stylish": "^2.0.1"
   }
 }

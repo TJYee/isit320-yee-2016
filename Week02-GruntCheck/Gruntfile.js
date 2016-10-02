@@ -10,47 +10,33 @@ module.exports = function(grunt) {
 
             options: {
                 ignores: [
-                    '**/node_modules/**'
+                    '**/node_modules/**', '**/components/**'
                 ],
-                reporter: 'checkstyle',
-                reporterOutput: 'result.xml',
+                reporter: require('jshint-stylish'),
                 strict: true,
-                globals: {
-                    describe: true,
-                    afterEach: true,
-                    beforeEach: true,
-                    inject: true,
-                    it: true,
-                    jasmine: true,
-                    expect: true,
-                    module: true,
-                }
+                jasmine: true
             }
         },
 
         clean: {
-            work: {
-                src: ['**/node_modules/**']
-            },
-
-            zip: {
-                src: ['<%= zipFile %>']
+            yourTarget: {
+                src: ['**/node_modules/**', '**/components/**']
             }
         },
 
         jscs: {
-            src: ['**/*.js', '!**/bitly-links.js'],
+            src: '**/*.js',
             options: {
                 config: '.jscsrc'
             }
         },
 
         'jsbeautifier': {
-            files: ['**/*.js', '!**/node_modules/**', '!**/components/**', '!**/platforms/**'],
+            files: ['**/*.js', '!**/node_modules/**', '!**/components/**'],
             options: {
                 'indentSize': 4
             }
-        }
+        },
 
     });
 
