@@ -10,7 +10,11 @@ module.exports = function(grunt) {
 
             options: {
                 ignores: [
-                    '**/node_modules/**'
+                    '**/node_modules/**',
+                    '**/Library/jas/**',
+                    '**/jquery-2.0.3.js',
+                    '**/requirejs-wrapper*.js',
+                    '**/requirejs-setup*.js'
                 ],
                 reporter: 'checkstyle',
                 reporterOutput: 'result.xml',
@@ -30,11 +34,11 @@ module.exports = function(grunt) {
 
         clean: {
             work: {
-                src: ['**/node_modules/**']
+                src: ['**/node_modules/**', 'result.xml']
             },
 
             zip: {
-                src: ['<%= zipFile %>']
+                src: []
             }
         },
 
