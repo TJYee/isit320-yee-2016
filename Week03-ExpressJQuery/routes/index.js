@@ -6,11 +6,4 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Yee' });
 });
 
-router.get('/read', function(request, response) {
-  response.send([
-    {name: 'SarahLee'},
-    {name: 'Bob'}
-  ]);
-});
-
 module.exports = router;

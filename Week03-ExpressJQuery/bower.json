@@ -1,0 +1,20 @@
+{
+  "name": "Week03-ExpressJQuery",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Taylor Home VBox <TaylorYeeBC@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/TJYee/isit320-yee-2016",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1"
+  }
+}
