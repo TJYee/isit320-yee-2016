@@ -1,25 +1,13 @@
 {
-  "name": "ObjectBasics",
-  "version": "1.0.0",
-  "description": "Learn about JavaScript Objects",
-  "main": "index.js",
+  "name": "CouchDbViews",
+  "description": "Learn about CouchDb Views",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
+    "start": "node ./bin/www",
     "test": "node jasmine-runner.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "http://git@github.com/charliecalvert/JsObjects.git"
-  },
-  "keywords": [
-    "javascript"
-  ],
-  "author": "Charlie Calvert",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/charliecalvert/JsObjects/issues"
-  },
-  "homepage": "https://github.com/charliecalvert/JsObjects",
-  "devDependencies": {
+  "dependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-compress": "~1.2.0",
@@ -27,9 +15,15 @@
     "grunt-contrib-jshint": "~1.0.0",
     "grunt-jsbeautifier": "^0.2.12",
     "grunt-jscs": "^2.8.0",
+    "inquirer": "^1.2.1",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
     "jasmine-spec-reporter": "^2.4.0",
-    "jshint-stylish": "^2.0.1"
+    "jshint-stylish": "^2.0.1",
+    "nano": "^6.1.2",
+    "request-debug": "^0.2.0"
+  },
+  "devDependencies": {
+    "jasmine-spec-reporter": "^2.7.0"
   }
 }
