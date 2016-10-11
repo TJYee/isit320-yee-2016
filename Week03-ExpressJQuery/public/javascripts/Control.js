@@ -1,8 +1,8 @@
-var MyObject = function() {
+var MyObject = (function() {
     'use strict';
     // constructor
     function MyObject() {
-        $('#sendString').click(showString());
+        $('#sendString').click(showString);
         $('#getItems').click(showItems);
         $('#getMarie').click(showMarie);
     }
@@ -37,7 +37,7 @@ var MyObject = function() {
     };
 
     return MyObject;
-};
+})();
 
 $(document).ready(function() {
     'use strict';

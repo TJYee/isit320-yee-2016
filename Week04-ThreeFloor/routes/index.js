@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     'use strict';
     res.render('index', {
-        title: 'Yee'
+        title: 'Week04-ThreeJsBasics'
     });
 });
 
