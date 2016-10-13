@@ -32,7 +32,7 @@ define(["floor"], function(Floor) {
         });
         renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
         document.body.appendChild(renderer.domElement);
-        cube = addCube(scene, camera, false, 1, 1);
+        cube = addCube(scene, camera, false, 0, 0);
         camera.position.z = 0;
         camera.position.x = 0;
         camera.position.y = 0;
