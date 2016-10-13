@@ -1,10 +1,10 @@
 {
-  "name": "elven-project",
-  "version": "0.0.0",
+  "name": "week04-threefloor",
+  "version": "0.0.1",
   "authors": [
     "Charlie Calvert"
   ],
-  "description": "Angular Unit Tests",
+  "description": "",
   "keywords": [],
   "license": "MIT",
   "homepage": "http://www.elvenware.com",

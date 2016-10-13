@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 
             options: {
                 ignores: [
-                    '**/node_modules/**', '**/components/**'
+                    '**/node_modules/**', '**/components/**', '**/three.js'
                 ],
                 reporter: require('jshint-stylish'),
                 strict: true,
@@ -38,26 +38,6 @@ module.exports = function(grunt) {
             }
         },
 
-        jade: {
-            compile: {
-                options: {
-                    pretty: true,
-                    data: {
-                        debug: false
-                    }
-                },
-                files: {
-                    'spec/fixtures/fixture.html': ['views/fixture.jade', '$ELF_TEMPLATES/JadeMixins/*.jade']
-                }
-            }
-        },
-
-        shell: {
-            fixture: {
-                command: 'sed "/extend/d" views/index.jade > views/fixture.jade'
-            }
-        },
-
         karma: {
             karma: {
                 configFile: 'karma.conf.js'
@@ -71,9 +51,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-contrib-jade');
-    grunt.loadNpmTasks('grunt-shell');
-    grunt.registerTask('fixture', ['exec:stripExtends', 'jade', 'karma']);
     grunt.registerTask('beautify', ['jsbeautifier']);
     grunt.registerTask('check', ['beautify', 'jscs', 'jshint']);
     grunt.registerTask('test', ['jshint', 'karma']);

@@ -11,9 +11,7 @@ module.exports = function(config) {
 
         files: [
             'public/components/jquery/dist/jquery.min.js',
-            'node_modules/jasmine-jquery/lib/*.js',
             'public/javascripts/*.js',
-            'spec/**/*.html',
             'spec/test*.js'
         ],
 
@@ -22,15 +20,8 @@ module.exports = function(config) {
 
         reporters: ['spec'],
 
-        specReporter: {
-            suppressSkipped: true
-        },
-
         // web server port
         port: 9876,
-        preprocessors: {
-            '**/*.html': []
-        },
 
         // enable / disable colors in the output (reporters and logs)
         colors: true,
