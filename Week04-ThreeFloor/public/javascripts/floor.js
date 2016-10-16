@@ -1,4 +1,4 @@
-define([require], function () {
+define([require], function() {
     'use strict';
 
     var THREE = null;
@@ -7,10 +7,9 @@ define([require], function () {
         THREE = threeInit;
     }
 
-
     function makeFloor() {
-        // floor
 
+        // floor
         var geometry = new THREE.PlaneGeometry(2000, 2000, 100, 100);
         geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
 
@@ -26,10 +25,12 @@ define([require], function () {
         for (i = 0, l = geometry.faces.length; i < l; i++) {
 
             var face = geometry.faces[i];
-            face.vertexColors[0] = new THREE.Color().setHSL(Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
-            face.vertexColors[1] = new THREE.Color().setHSL(Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
-            face.vertexColors[2] = new THREE.Color().setHSL(Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
-
+            face.vertexColors[0] = new THREE.Color().setHSL(Math.random() * 0.2 +
+                0.5, 0.75, Math.random() * 0.25 + 0.75);
+            face.vertexColors[1] = new THREE.Color().setHSL(Math.random() * 0.2 +
+                0.5, 0.75, Math.random() * 0.25 + 0.75);
+            face.vertexColors[2] = new THREE.Color().setHSL(Math.random() * 0.2 +
+                0.5, 0.75, Math.random() * 0.25 + 0.75);
         }
 
         var material = new THREE.MeshBasicMaterial({
@@ -40,9 +41,11 @@ define([require], function () {
         scene.add(mesh);
     }
 
-    Floors.prototype.drawFloor = function (scene) {
+    Floors.prototype.drawFloor = function(scene) {
         // FLOOR
-        var names = ['images/checkerboard.jpg', 'images/FloorBorder256.png', 'images/WoodenPlanks.png', 'images/grass02.jpg', 'images/Grass03.png'];
+        var names = ['images/checkerboard.jpg', 'images/FloorBorder256.png',
+            'images/WoodenPlanks.png', 'images/grass02.jpg', 'images/Grass03.png'
+        ];
         var repeats = [250, 100, 100, 175];
         var index = 0;
         var loader = new THREE.TextureLoader();

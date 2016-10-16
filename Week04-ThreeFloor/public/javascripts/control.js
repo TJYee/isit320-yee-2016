@@ -1,6 +1,6 @@
 /* globals define: true, THREE:true */
 
-define(["floor"], function(Floor) {
+define(['floor'], function (Floor) {
     'use strict';
     var scene = null;
     var camera = null;
@@ -9,16 +9,16 @@ define(["floor"], function(Floor) {
     var THREE = null;
 
     var keyMove = {
-        moveForward : false,
-        moveBackward : false,
-        moveLeft : false,
-        moveRight : false
+        moveForward: false,
+        moveBackward: false,
+        moveLeft: false,
+        moveRight: false
     };
 
     var cameraPosition = {
-        x : 0,
-        y : 0,
-        z : 0
+        x: 0,
+        y: 0,
+        z: 0
     };
 
     function Control(threeInit) {
@@ -32,10 +32,12 @@ define(["floor"], function(Floor) {
         });
         renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
         document.body.appendChild(renderer.domElement);
-        cube = addCube(scene, camera, false, 0, 0);
+        addCShapes(scene, camera, false);
         camera.position.z = 0;
         camera.position.x = 0;
         camera.position.y = 0;
+
+        addLights();
 
         var floor = new Floor(THREE);
         floor.drawFloor(scene);
@@ -43,12 +45,12 @@ define(["floor"], function(Floor) {
 
         document.addEventListener('keydown', onKeyDown, false);
         document.addEventListener('keyup', onKeyUp, false);
+        window.addEventListener('resize', onWindowResize, false);
     }
 
     function render() {
         requestAnimationFrame(render);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+
         renderer.render(scene, camera);
 
         if (keyMove.moveLeft) {
@@ -57,30 +59,62 @@ define(["floor"], function(Floor) {
             cameraPosition.x += 1;
         } else if (keyMove.moveForward) {
             cameraPosition.z -= 1;
-        } else if (keyMove.moveBackward){
+        } else if (keyMove.moveBackward) {
             cameraPosition.z += 1;
         }
         camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
     }
 
-    function addCube(scene, camera, wireFrame, x, y) {
-        var geometry = new THREE.BoxGeometry(7, 7, 7);
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function addCube(scene, camera, wireFrame, x, z) {
+        var geometry = new THREE.BoxGeometry(5, 5, 5);
+        var loader = new THREE.TextureLoader();
+        var material = new THREE.MeshLambertMaterial({
+            map : loader.load('images/crate.jpg')
+        });
+
+        var cube = new THREE.Mesh(geometry, material);
+        cube.position.set(x, 0, z);
+        scene.add(cube);
+        return cube;
+    }
+
+    function addSphere(sne, camera, wireFrame, x, z) {
+        var geometry = new THREE.SphereGeometry(.5, 25, 25);
         var material = new THREE.MeshNormalMaterial({
             color: 0x00ffff,
             wireframe: wireFrame
         });
-        var cube = new THREE.Mesh(geometry, material);
-        cube.position.set(x, 0, y);
-        scene.add(cube);
 
-        return cube;
+        var sphere = new THREE.Mesh(geometry, material);
+        sphere.overdraw = true;
+        sphere.position.set(x, 0, z);
+        scene.add(sphere);
+        return sphere;
     }
 
-    function addCubes(scene, camera, wireFrame) {
-
+    function addCShapes(scene, camera, wireFrame) {
+        for (var i = 1; i < 7; i++) {
+            addCube(scene, camera, wireFrame, -i * 10, -i * 10);
+            addSphere(scene, camera, wireFrame, i, i);
+        }
     }
 
-    var onKeyDown = function(event) {
+    function addLights() {
+        var light = new THREE.DirectionalLight(0xffffff, 1.5);
+        light.position.set(1, 1, 1);
+        scene.add(light);
+        light = new THREE.DirectionalLight(0xffffff, 0.75);
+        light.position.set(-1, -0.5, -1);
+        scene.add(light);
+    }
+
+    var onKeyDown = function (event) {
 
         switch (event.keyCode) {
 
@@ -106,7 +140,7 @@ define(["floor"], function(Floor) {
         }
     };
 
-    var onKeyUp = function(event) {
+    var onKeyUp = function (event) {
 
         switch (event.keyCode) {
 
