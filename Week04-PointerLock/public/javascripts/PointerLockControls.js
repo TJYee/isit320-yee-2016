@@ -2,9 +2,9 @@
  * @author mrdoob / http://mrdoob.com/
  */
 
-define(['floor'], function (Floor) {
-
-    var PointerLockControls = function (camera, threeInit) {
+define(['floor'], function(Floor) {
+    'use strict';
+    var PointerLockControls = function(camera, threeInit) {
 
         var scope = this;
         var THREE = threeInit;
@@ -32,7 +32,7 @@ define(['floor'], function (Floor) {
 
         var PI_2 = Math.PI / 2;
 
-        var onMouseMove = function (event) {
+        var onMouseMove = function(event) {
 
             if (scope.enabled === false) return;
 
@@ -46,7 +46,7 @@ define(['floor'], function (Floor) {
 
         };
 
-        var onKeyDown = function (event) {
+        var onKeyDown = function(event) {
 
             switch (event.keyCode) {
 
@@ -79,7 +79,7 @@ define(['floor'], function (Floor) {
 
         };
 
-        var onKeyUp = function (event) {
+        var onKeyUp = function(event) {
 
             switch (event.keyCode) {
 
@@ -113,27 +113,27 @@ define(['floor'], function (Floor) {
 
         this.enabled = false;
 
-        this.getObject = function () {
+        this.getObject = function() {
 
             return yawObject;
 
         };
 
-        this.isOnObject = function (boolean) {
+        this.isOnObject = function(boolean) {
 
             isOnObject = boolean;
             canJump = boolean;
 
         };
 
-        this.getDirection = function () {
+        this.getDirection = function() {
 
             // assumes the camera itself is not rotated
 
             var direction = new THREE.Vector3(0, 0, -1);
             var rotation = new THREE.Euler(0, 0, 0, "YXZ");
 
-            return function (v) {
+            return function(v) {
 
                 rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
 
@@ -141,11 +141,11 @@ define(['floor'], function (Floor) {
 
                 return v;
 
-            }
+            };
 
         }();
 
-        this.update = function () {
+        this.update = function() {
 
             if (scope.enabled === false) return;
 

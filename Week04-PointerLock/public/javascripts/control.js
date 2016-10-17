@@ -8,6 +8,8 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     var THREE = null;
     var controls = null;
     var size = 20;
+    var cubes = [];
+    var raycaster = null;
 
     var keyMove = {
         moveForward: false,
@@ -45,10 +47,12 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var floor = new Floor(THREE);
         floor.drawFloor(scene);
 
-        var raycaster = new THREE.Raycaster(new THREE.Vector3(),
+        raycaster = new THREE.Raycaster(new THREE.Vector3(),
             new THREE.Vector3(0, -1, 0), 0, 10);
 
-        renderer = new THREE.WebGLRenderer({ antialias : true });
+        renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
