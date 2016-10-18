@@ -19,9 +19,9 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     };
 
     var cameraPosition = {
-        x: 0,
+        x: 2,
         y: 0,
-        z: 0
+        z: 2
     };
 
     function Control(threeInit) {
@@ -35,10 +35,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var screenWidth = window.innerWidth / window.innerHeight;
         camera = new THREE.PerspectiveCamera(75, screenWidth, 1, 1000);
 
+        controls = new PointerLockControls(camera, THREE);
+
         scene = new THREE.Scene();
         scene.fog = new THREE.Fog(0xffffff, 0, 750);
 
-        addCShapes(scene, camera, false);
+        addShapes(scene, camera, false);
+        addSphere(scene, camera, false, 5, -100);
 
         doPointerLock();
 
@@ -71,9 +74,9 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var controlObject = controls.getObject();
         var position = controlObject.position;
 
-        // drawText(controlObject, position);
+        //drawText(controlObject, position);
 
-        collisionDetection(position);
+        collisionDetection(controls, cubes);
 
         // Move the camera
         controls.update();
@@ -92,22 +95,50 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var ps = new PointerLockSetup(controls);
     }
 
-    function collisionDetection(position) {
-        // Collision detection
-        raycaster.ray.origin.copy(position);
+    var collisionDetection = function(controls, cubes) {
 
-        var dir = controls.getDirection(new THREE.Vector3(0, 0, 0)).clone();
-        raycaster.ray.direction.copy(dir);
-
-        var intersections = raycaster.intersectObjects(cubes);
-
-        // If we hit something (a wall) then stop moving in
-        // that direction
-        if (intersections.length > 0 && intersections[0].distance <= 215) {
-            console.log(intersections.length);
-            controls.isOnObject(true);
+        function bounceBack(position, ray) {
+            position.x -= ray.bounceDistance.x;
+            position.y -= ray.bounceDistance.y;
+            position.z -= ray.bounceDistance.z;
         }
-    }
+
+        var rays = [
+            //   Time    Degrees      words
+            new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
+            new THREE.Vector3(1, 0, 1), // 1  1:30,  45 degrees,  right deep
+            new THREE.Vector3(1, 0, 0), // 2  3:00,  90 degress,  right
+            new THREE.Vector3(1, 0, -1), // 3  4:30, 135 degrees,  right near
+            new THREE.Vector3(0, 0, -1), // 4  6:00  180 degress,  near
+            new THREE.Vector3(-1, 0, -1), // 5  7:30  225 degrees,  left near
+            new THREE.Vector3(-1, 0, 0), // 6  9:00  270 degrees,  left
+            new THREE.Vector3(-1, 0, 1) // 7 11:30  315 degrees,  left deep
+        ];
+
+        var position = controls.getObject().position;
+        var rayHits = [];
+        for (var index = 0; index < rays.length; index += 1) {
+
+            // Set bounce distance for each vector
+            var bounceSize = 0.1;
+            rays[index].bounceDistance = {
+                x: rays[index].x * bounceSize,
+                y: rays[index].y * bounceSize,
+                z: rays[index].z * bounceSize
+            };
+
+            raycaster.set(position, rays[index]);
+
+            var intersections = raycaster.intersectObjects(cubes);
+
+            if (intersections.length > 0 && intersections[0].distance <= 3) {
+                controls.isOnObject(true);
+                bounceBack(position, rays[index]);
+            }
+        }
+
+        return false;
+    };
 
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -123,13 +154,14 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         });
 
         var cube = new THREE.Mesh(geometry, material);
-        cube.position.set(x, 0, z);
+        cube.position.set(x, size / 2, z);
         scene.add(cube);
+        cubes.push(cube);
         return cube;
     }
 
     function addSphere(sne, camera, wireFrame, x, z) {
-        var geometry = new THREE.SphereGeometry(0.5, 25, 25);
+        var geometry = new THREE.SphereGeometry(5, 25, 25);
         var material = new THREE.MeshNormalMaterial({
             color: 0x00ffff,
             wireframe: wireFrame
@@ -137,15 +169,15 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
 
         var sphere = new THREE.Mesh(geometry, material);
         sphere.overdraw = true;
-        sphere.position.set(x, 0, z);
+        sphere.position.set(x, 5, z);
         scene.add(sphere);
         return sphere;
     }
 
-    function addCShapes(scene, camera, wireFrame) {
-        for (var i = 1; i < 7; i++) {
-            addCube(scene, camera, wireFrame, -i * 10, -i * 10);
-            addSphere(scene, camera, wireFrame, i, i);
+    function addShapes(scene, camera, wireFrame) {
+        for (var i = 0; i < 6; i++) {
+            addCube(scene, camera, wireFrame, 25, -i * 20);
+            addCube(scene, camera, wireFrame, -25, -i * 20);
         }
     }
 
@@ -157,58 +189,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         light.position.set(-1, -0.5, -1);
         scene.add(light);
     }
-
-    var onKeyDown = function(event) {
-
-        switch (event.keyCode) {
-
-            case 38: // up
-            case 87: // w
-                keyMove.moveForward = true;
-                break;
-
-            case 37: // left
-            case 65: // a
-                keyMove.moveLeft = true;
-                break;
-
-            case 40: // down
-            case 83: // s
-                keyMove.moveBackward = true;
-                break;
-
-            case 39: // right
-            case 68: // d
-                keyMove.moveRight = true;
-                break;
-        }
-    };
-
-    var onKeyUp = function(event) {
-
-        switch (event.keyCode) {
-
-            case 38: // up
-            case 87: // w
-                keyMove.moveForward = false;
-                break;
-
-            case 37: // left
-            case 65: // a
-                keyMove.moveLeft = false;
-                break;
-
-            case 40: // down
-            case 83: // s
-                keyMove.moveBackward = false;
-                break;
-
-            case 39: // right
-            case 68: // d
-                keyMove.moveRight = false;
-                break;
-        }
-    };
 
     return Control;
 });
