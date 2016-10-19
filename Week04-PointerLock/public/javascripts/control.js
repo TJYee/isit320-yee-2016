@@ -18,12 +18,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         moveRight: false
     };
 
-    var cameraPosition = {
-        x: 2,
-        y: 0,
-        z: 2
-    };
-
     function Control(threeInit) {
         THREE = threeInit;
         init();
