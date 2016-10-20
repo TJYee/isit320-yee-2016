@@ -40,7 +40,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         */
         loadGrid(scene, camera, false);
 
-
         doPointerLock();
 
         addLights();
@@ -161,7 +160,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     function addSphere(sne, camera, wireFrame, x, z) {
         var geometry = new THREE.SphereGeometry(5, 25, 25);
         var material = new THREE.MeshNormalMaterial({
-            color: 0x00ffff,
+            //color: 0x00ffff,
             wireframe: wireFrame
         });
 
@@ -190,19 +189,19 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
 
     function loadGrid(scene, camera, wireFrame) {
         $.getJSON('Grid000.json', function(result) {
-            for(var i = 0; i < Object.keys(result).length; i++){
-                for(var j = 0; j < result[i].length; j++){
+            for (var i = 0; i < Object.keys(result).length; i++) {
+                for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
-                    if(result[i][j] == 1){
+                    if (result[i][j] == 1) {
                         addCube(scene, camera, wireFrame, j * size, i * size);
-                    } else if (result[i][j] == 0) {
-                        console.log('Nothing at:' + j + ", " + i);
+                    } else if (result[i][j] === 0) {
+                        //console.log('Nothing at:' + j + ', ' + i);
                     } else if (result[i][j] == 3) {
                         addSphere(scene, camera, wireFrame, j * size, i * size);
                     }
                 }
             }
-        })
+        });
     }
 
     return Control;
