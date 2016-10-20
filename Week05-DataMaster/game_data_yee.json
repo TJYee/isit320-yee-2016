@@ -1,0 +1,25 @@
+{
+  "_id": "npcObjects",
+  "docs": [
+    {
+      "id": "XXXXX",
+      "npc_id": 1,
+      "npc_name": "Suzie",
+      "description": "A tall red head with freckles",
+      "color": "#00FFFF",
+      "value": 15,
+      "question": "Is 2 + 2 equal to 4?",
+      "answer": true
+    },
+    {
+      "id": "YYYYY",
+      "npc_id": 2,
+      "npc_name": "Tom",
+      "description": "A strong bald man with green eyes",
+      "color": "#0000FF",
+      "value": 15,
+      "question": "Is 2 + 2 equal to 5?",
+      "answer": true
+    }
+  ]
+};
