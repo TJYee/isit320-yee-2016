@@ -147,7 +147,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var geometry = new THREE.BoxGeometry(size, size, size);
         var loader = new THREE.TextureLoader();
         var material = new THREE.MeshLambertMaterial({
-            map: loader.load('images/crate.jpg')
+            map: loader.load('images/retroblock.jpg')
         });
 
         var cube = new THREE.Mesh(geometry, material);
