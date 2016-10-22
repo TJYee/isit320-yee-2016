@@ -26,7 +26,7 @@ function check() {
 
 check Week01-ExpressBasics/
 check Week02-BasicTypes/
-check Week02-BasicTypesExpress/
+#check Week02-BasicTypesExpress/
 check Week02-GetNumbers/
 check Week02-JavaScriptObjects/
 check Week02-ObjectBasicsJasmine/

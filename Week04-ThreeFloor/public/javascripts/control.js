@@ -1,6 +1,6 @@
 /* globals define: true, THREE:true */
 
-define(['floor'], function (Floor) {
+define(['floor'], function(Floor) {
     'use strict';
     var scene = null;
     var camera = null;
@@ -75,7 +75,7 @@ define(['floor'], function (Floor) {
         var geometry = new THREE.BoxGeometry(5, 5, 5);
         var loader = new THREE.TextureLoader();
         var material = new THREE.MeshLambertMaterial({
-            map : loader.load('images/crate.jpg')
+            map: loader.load('images/crate.jpg')
         });
 
         var cube = new THREE.Mesh(geometry, material);
@@ -114,7 +114,7 @@ define(['floor'], function (Floor) {
         scene.add(light);
     }
 
-    var onKeyDown = function (event) {
+    var onKeyDown = function(event) {
 
         switch (event.keyCode) {
 
@@ -140,7 +140,7 @@ define(['floor'], function (Floor) {
         }
     };
 
-    var onKeyUp = function (event) {
+    var onKeyUp = function(event) {
 
         switch (event.keyCode) {
 
