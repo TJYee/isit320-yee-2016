@@ -4,11 +4,12 @@
 
 require.config({
     paths: {
-        'jquery': '../components/jquery-1.11.1.min'
+        'jquery': '../components/jquery/dist/jquery.min',
+        'ClickEvents': '../javascripts/ClickEvents'
     }
 });
 
-require(['jquery', 'ClickEvents'], function(jquery, ClickEvents) {
+require(['jquery', 'ClickEvents'], function($, ClickEvents) {
     'use strict';
 
     console.log('Main called');

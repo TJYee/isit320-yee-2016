@@ -1,8 +1,7 @@
-define(['jquery'], function(jquery) {
+define(['jquery'], function($) {
     'use strict';
 
     var elf = {};
-    elf.run = {};
 
     elf.ClickEvents = (function() {
         var listItem = $('.listItem');
@@ -28,6 +27,7 @@ define(['jquery'], function(jquery) {
 
         return ClickEvents;
     }());
+    elf.run = {};
 
     return elf.ClickEvents;
 

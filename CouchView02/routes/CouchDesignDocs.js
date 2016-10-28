@@ -5,14 +5,14 @@
 function designDocs(router, nano, dbName) {
     'use strict';
 
-    var firstAndLast = function(doc) {
+    var firstAndLast = function (doc) {
         if (doc.firstName && doc.lastName) {
             var name = doc.firstName + ' ' + doc.lastName;
             emit(doc._id, name);
         }
     };
 
-    var lastOnly = function(doc) {
+    var lastOnly = function (doc) {
 
         if (doc.firstName && doc.lastName) {
             var name = doc.lastName;
@@ -20,25 +20,25 @@ function designDocs(router, nano, dbName) {
         }
     };
 
-    var docIdDoc = function(doc) {
+    var docIdDoc = function (doc) {
         emit(doc._id, doc);
     };
 
-    var docBulk = function(doc) {
+    var docBulk = function (doc) {
         emit(doc._id, doc.name);
     };
 
-    var docStateCapital = function(doc) {
+    var docStateCapital = function (doc) {
         emit(doc.abbreviation, {
             'name': doc.name,
             'capital': doc.capital
         });
     };
 
-    var docStatesDoc = function(doc) {
+    var docStatesDoc = function (doc) {
         if (doc._id === 'statesDoc') {
             var data = [];
-            doc.docs.forEach(function(state) {
+            doc.docs.forEach(function (state) {
                 data.push({
                     'name': state.name,
                     'capital': state.capital
@@ -48,40 +48,44 @@ function designDocs(router, nano, dbName) {
         }
     };
 
+    var docNpcValue = function (doc) {
+        emit();
+    };
+
     /*
-    var viewStatesDoc = function(doc) {
-        if (doc._id === "statesDoc") {
-            var data = [];
-            doc.docs.forEach(function(state) {
-                emit({
-                    "name" : state.name,
-                    "capital" : state.capital
-                }, 1);
-            });
-            emit(doc.docs[0].abbreviation, data);
-        }
-    }
+     var viewStatesDoc = function(doc) {
+     if (doc._id === "statesDoc") {
+     var data = [];
+     doc.docs.forEach(function(state) {
+     emit({
+     "name" : state.name,
+     "capital" : state.capital
+     }, 1);
+     });
+     emit(doc.docs[0].abbreviation, data);
+     }
+     }
 
-    var docStatesHtml = function(doc) {
-        start({
-            'headers' : {
-                'Content-Type' : 'text/html'
-            }
-        });
-        send('<html><body><table>');
-        send('<tr><th>ID</th><th>Key</th><th>Value</th></tr>')
-        while (row = viewStatesDoc()) {
-            send(''.concat('<tr>', '<td>' + toJSON(row.name) + '</td>', '<td>'
-                    + toJSON(row.capital) + '</td>', '<td>' + toJSON(row.value)
-                    + '</td>', '</tr>'));
-        }
-        send('</table></body></html>');
+     var docStatesHtml = function(doc) {
+     start({
+     'headers' : {
+     'Content-Type' : 'text/html'
+     }
+     });
+     send('<html><body><table>');
+     send('<tr><th>ID</th><th>Key</th><th>Value</th></tr>')
+     while (row = viewStatesDoc()) {
+     send(''.concat('<tr>', '<td>' + toJSON(row.name) + '</td>', '<td>'
+     + toJSON(row.capital) + '</td>', '<td>' + toJSON(row.value)
+     + '</td>', '</tr>'));
+     }
+     send('</table></body></html>');
 
-    }*/
+     }*/
 
     function createDesignDocument(designDocument, designName, response) {
         var nanoDb = nano.db.use(dbName);
-        nanoDb.insert(designDocument, designName, function(error, body) {
+        nanoDb.insert(designDocument, designName, function (error, body) {
             if (!error) {
                 console.log(body);
                 response.send(body);
@@ -94,7 +98,7 @@ function designDocs(router, nano, dbName) {
         });
     }
 
-    router.get('/designDoc', function(request, response) {
+    router.get('/designDoc', function (request, response) {
 
         console.log('Design Doc Called');
 
@@ -114,12 +118,12 @@ function designDocs(router, nano, dbName) {
                     'map': docStatesDoc
                 }
                 /*,
-                                "viewStatesDoc" : {
-                                    "map" : viewStatesDoc
-                                },
-                                "docStatesHtml" : {
-                                    "map" : docStatesHtml
-                                }*/
+                 "viewStatesDoc" : {
+                 "map" : viewStatesDoc
+                 },
+                 "docStatesHtml" : {
+                 "map" : docStatesHtml
+                 }*/
             }
         };
 
