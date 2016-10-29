@@ -67,17 +67,17 @@ queryController.NpcsOneDoc = function($q) {
 
 queryController.viewNpcs = function($q) {
     'use strict';
-    return runQuery('/viewNpcs?designDoc=docNpcs&view=docNpcs', $q);
+    return runQuery('/viewNpcs?designDoc=states&view=docNpcs', $q);
 };
 
 queryController.viewNpcsValue = function($q) {
     'use strict';
-    return runQuery('/viewNpcsValue', $q);
+    return runQuery('/viewNpcsValue?designDoc=states&view=docNpcsValue', $q);
 };
 
 queryController.viewNpcsQA = function($q) {
     'use strict';
-    return runQuery('/viewNpcsQA', $q);
+    return runQuery('/viewNpcsQA?designDoc=states&view=docNpcsQA', $q);
 };
 //End of Npcs code
 queryController.design = function($q) {

@@ -99,6 +99,38 @@ function views(router, nano, dbName) {
         });
     });
 
+    router.get('/viewNpcsValue', function(request, response) {
+        console.log('viewNpcsValue called.');
+        var doc = request.query.designDoc;
+        var view = request.query.view;
+        var nanoDb = nano.db.use(dbName);
+        nanoDb.view(doc, view, function(err, body) {
+            if (!err) {
+                console.log(body);
+                response.send(body);
+            } else {
+                console.log(err);
+                response.status(err.statusCode).send(err);
+            }
+        });
+    });
+
+    router.get('/viewNpcsQA', function(request, response) {
+        console.log('viewNpcsQA called.');
+        var doc = request.query.designDoc;
+        var view = request.query.view;
+        var nanoDb = nano.db.use(dbName);
+        nanoDb.view(doc, view, function(err, body) {
+            if (!err) {
+                console.log(body);
+                response.send(body);
+            } else {
+                console.log(err);
+                response.status(err.statusCode).send(err);
+            }
+        });
+    });
+
 }
 
 module.exports = views;

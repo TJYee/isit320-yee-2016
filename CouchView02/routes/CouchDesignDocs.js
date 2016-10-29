@@ -53,7 +53,11 @@ function designDocs(router, nano, dbName) {
     };
 
     var docNpcsValue = function(doc) {
-        emit();
+        emit({
+            'npc_id': doc.npc_id,
+            'npc_name': doc.npc_name,
+            'value': doc.value
+        });
     };
 
     var docNpcsQA = function(doc) {
