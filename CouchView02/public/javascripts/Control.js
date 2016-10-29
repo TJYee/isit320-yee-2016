@@ -54,6 +54,32 @@ queryController.statesOneDoc = function($q) {
     return runQuery('/insertFile?fileName=States.json&id=oneDoc', $q);
 };
 
+//Npcs code
+queryController.NpcsBulk = function($q) {
+    'use strict';
+    return runQuery('/insertBulk?fileName=Npcs.json', $q);
+};
+
+queryController.NpcsOneDoc = function($q) {
+    'use strict';
+    return runQuery('/insertFile?fileName=Npcs.json&id=oneDoc', $q);
+};
+
+queryController.viewNpcs = function($q) {
+    'use strict';
+    return runQuery('/viewNpcs?designDoc=docNpcs&view=docNpcs', $q);
+};
+
+queryController.viewNpcsValue = function($q) {
+    'use strict';
+    return runQuery('/viewNpcsValue', $q);
+};
+
+queryController.viewNpcsQA = function($q) {
+    'use strict';
+    return runQuery('/viewNpcsQA', $q);
+};
+//End of Npcs code
 queryController.design = function($q) {
     'use strict';
     return runQuery('/designDoc', $q);
@@ -157,6 +183,37 @@ myModule.config(function($routeProvider) {
         controller: 'QueryController',
         resolve: {
             result: queryController.viewBulkAngular
+        }
+    // Npcs code
+    }).when('/insertNpcsBulk', {
+        templateUrl: 'templates/States.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.NpcsBulk
+        }
+    }).when('/insertNpcsOneDoc', {
+        templateUrl: 'templates/States.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.NpcsOneDoc
+        }
+    }).when('/viewNpcs', {
+        templateUrl: 'templates/QueryView.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.viewNpcs
+        }
+    }).when('/viewNpcsValue', {
+        templateUrl: 'templates/QueryView.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.viewNpcsValue
+        }
+    }).when('/viewNpcsQA', {
+        templateUrl: 'templates/QueryView.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.viewNpcsQA
         }
     }).otherwise({
         redirectTo: '/'

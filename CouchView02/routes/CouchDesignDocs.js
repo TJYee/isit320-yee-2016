@@ -5,14 +5,14 @@
 function designDocs(router, nano, dbName) {
     'use strict';
 
-    var firstAndLast = function (doc) {
+    var firstAndLast = function(doc) {
         if (doc.firstName && doc.lastName) {
             var name = doc.firstName + ' ' + doc.lastName;
             emit(doc._id, name);
         }
     };
 
-    var lastOnly = function (doc) {
+    var lastOnly = function(doc) {
 
         if (doc.firstName && doc.lastName) {
             var name = doc.lastName;
@@ -20,25 +20,25 @@ function designDocs(router, nano, dbName) {
         }
     };
 
-    var docIdDoc = function (doc) {
+    var docIdDoc = function(doc) {
         emit(doc._id, doc);
     };
 
-    var docBulk = function (doc) {
+    var docBulk = function(doc) {
         emit(doc._id, doc.name);
     };
 
-    var docStateCapital = function (doc) {
+    var docStateCapital = function(doc) {
         emit(doc.abbreviation, {
             'name': doc.name,
             'capital': doc.capital
         });
     };
 
-    var docStatesDoc = function (doc) {
+    var docStatesDoc = function(doc) {
         if (doc._id === 'statesDoc') {
             var data = [];
-            doc.docs.forEach(function (state) {
+            doc.docs.forEach(function(state) {
                 data.push({
                     'name': state.name,
                     'capital': state.capital
@@ -48,7 +48,15 @@ function designDocs(router, nano, dbName) {
         }
     };
 
-    var docNpcValue = function (doc) {
+    var docNpcs = function(doc) {
+        emit(doc);
+    };
+
+    var docNpcsValue = function(doc) {
+        emit();
+    };
+
+    var docNpcsQA = function(doc) {
         emit();
     };
 
@@ -85,7 +93,7 @@ function designDocs(router, nano, dbName) {
 
     function createDesignDocument(designDocument, designName, response) {
         var nanoDb = nano.db.use(dbName);
-        nanoDb.insert(designDocument, designName, function (error, body) {
+        nanoDb.insert(designDocument, designName, function(error, body) {
             if (!error) {
                 console.log(body);
                 response.send(body);
@@ -98,7 +106,7 @@ function designDocs(router, nano, dbName) {
         });
     }
 
-    router.get('/designDoc', function (request, response) {
+    router.get('/designDoc', function(request, response) {
 
         console.log('Design Doc Called');
 
@@ -116,6 +124,15 @@ function designDocs(router, nano, dbName) {
                 },
                 'docStatesDoc': {
                     'map': docStatesDoc
+                },
+                'docNpcs': {
+                    'map': docNpcs
+                },
+                'docNpcsValue': {
+                    'map': docNpcsValue
+                },
+                'docNpcsQA': {
+                    'map': docNpcsQA
                 }
                 /*,
                  "viewStatesDoc" : {
