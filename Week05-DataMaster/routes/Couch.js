@@ -7,11 +7,11 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
-var servers = ['http://168.156.47.45:5984', 'http://192.168.2.19:5984'];
-var serverIndex = 1;
+var servers = ['http://192.168.0.246:5984'];
+var serverIndex = 0;
 var nano = require('nano')(servers[serverIndex]);
 
-var dbName = 'couch_views';
+var dbName = 'game_data_yee';
 var docName = 'phones';
 
 var insert = require('./CouchInsert')(router, nano, dbName);
@@ -22,7 +22,7 @@ var couchBulk = require('./CouchBulk')(router, dbName, servers[serverIndex]);
 
 router.get('/databaseName', function(request, response) {
     'use strict';
-    console.log('\/databaseName called.');
+    console.log('databaseName called.');
     response.send({
         'Result': dbName
     });
@@ -62,7 +62,7 @@ router.get('/deleteDb', function(request, response) {
     nano.db.destroy(dbName, function(err, body) {
         if (err) {
             console.log(err);
-            response.status(err.statusCode).send(err)
+            response.status(err.statusCode).send(err);
         } else {
             response.send(body);
         }

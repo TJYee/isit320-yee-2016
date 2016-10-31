@@ -4,11 +4,11 @@
 
 var myModule = angular.module('myModule', ['ngRoute']);
 
-var queryController = myModule.controller('QueryController',    
+var queryController = myModule.controller('QueryController',
     function($scope, result) {
         'use strict';
         if (result.ok) {
-            $scope.result = "It worked";
+            $scope.result = 'It worked';
         } else if (result.requestFailed) {
             $scope.result = JSON.stringify(result.requestFailed, null, 4);
         } else {
@@ -46,14 +46,40 @@ queryController.create = function($q) {
 
 queryController.statesBulk = function($q) {
     'use strict';
-    return runQuery('/insertBulk?fileName=game_data_yee.json', $q);
+    return runQuery('/insertBulk?fileName=States.json', $q);
 };
 
 queryController.statesOneDoc = function($q) {
     'use strict';
-    return runQuery('/insertFile?fileName=game_data_yee.json&id=oneDoc', $q);
+    return runQuery('/insertFile?fileName=States.json&id=oneDoc', $q);
 };
 
+//Npcs code
+queryController.NpcsBulk = function($q) {
+    'use strict';
+    return runQuery('/insertBulk?fileName=Npcs.json', $q);
+};
+
+queryController.NpcsOneDoc = function($q) {
+    'use strict';
+    return runQuery('/insertFile?fileName=Npcs.json&id=oneDoc', $q);
+};
+
+queryController.viewNpcs = function($q) {
+    'use strict';
+    return runQuery('/viewNpcs?designDoc=states&view=docNpcs', $q);
+};
+
+queryController.viewNpcsValue = function($q) {
+    'use strict';
+    return runQuery('/viewNpcsValue?designDoc=states&view=docNpcsValue', $q);
+};
+
+queryController.viewNpcsQA = function($q) {
+    'use strict';
+    return runQuery('/viewNpcsQA?designDoc=states&view=docNpcsQA', $q);
+};
+//End of Npcs code
 queryController.design = function($q) {
     'use strict';
     return runQuery('/designDoc', $q);
@@ -158,6 +184,37 @@ myModule.config(function($routeProvider) {
         resolve: {
             result: queryController.viewBulkAngular
         }
+        // Npcs code
+    }).when('/insertNpcsBulk', {
+        templateUrl: 'templates/States.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.NpcsBulk
+        }
+    }).when('/insertNpcsOneDoc', {
+        templateUrl: 'templates/States.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.NpcsOneDoc
+        }
+    }).when('/viewNpcs', {
+        templateUrl: 'templates/QueryView.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.viewNpcs
+        }
+    }).when('/viewNpcsValue', {
+        templateUrl: 'templates/QueryView.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.viewNpcsValue
+        }
+    }).when('/viewNpcsQA', {
+        templateUrl: 'templates/QueryView.html',
+        controller: 'QueryController',
+        resolve: {
+            result: queryController.viewNpcsQA
+        }
     }).otherwise({
         redirectTo: '/'
     });
@@ -165,7 +222,7 @@ myModule.config(function($routeProvider) {
 
 /*
 window.onload = function() {
-   $.getJSON("/read?docName=3e82f91797ece19dcfa2285dde098e8e", function(result) {
+   $.getJSON('/read?docName=3e82f91797ece19dcfa2285dde098e8e', function(result) {
        console.log(result);
    });
 } */

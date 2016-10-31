@@ -48,36 +48,63 @@ function designDocs(router, nano, dbName) {
         }
     };
 
-    /*
-    var viewStatesDoc = function(doc) {
-        if (doc._id === "statesDoc") {
-            var data = [];
-            doc.docs.forEach(function(state) {
-                emit({
-                    "name" : state.name,
-                    "capital" : state.capital
-                }, 1);
-            });
-            emit(doc.docs[0].abbreviation, data);
-        }
-    }
-
-    var docStatesHtml = function(doc) {
-        start({
-            'headers' : {
-                'Content-Type' : 'text/html'
-            }
+    var docNpcs = function(doc) {
+        emit(doc.id, {
+            'npc_id': doc.npc_id,
+            'npc_name': doc.npc_name,
+            'description': doc.description,
+            'color': doc.color,
+            'value': doc.value,
+            'question': doc.question,
+            'answer': doc.answer
         });
-        send('<html><body><table>');
-        send('<tr><th>ID</th><th>Key</th><th>Value</th></tr>')
-        while (row = viewStatesDoc()) {
-            send(''.concat('<tr>', '<td>' + toJSON(row.name) + '</td>', '<td>'
-                    + toJSON(row.capital) + '</td>', '<td>' + toJSON(row.value)
-                    + '</td>', '</tr>'));
-        }
-        send('</table></body></html>');
+    };
 
-    }*/
+    var docNpcsValue = function(doc) {
+        emit(doc.npc_id, {
+            'npc_name': doc.npc_name,
+            'value': doc.value
+        });
+    };
+
+    var docNpcsQA = function(doc) {
+        emit(doc.npc_id, {
+            'npc_name': doc.npc_name,
+            'question': doc.question,
+            'answer': doc.answer
+        });
+    };
+
+    /*
+     var viewStatesDoc = function(doc) {
+     if (doc._id === 'statesDoc') {
+     var data = [];
+     doc.docs.forEach(function(state) {
+     emit({
+     'name' : state.name,
+     'capital' : state.capital
+     }, 1);
+     });
+     emit(doc.docs[0].abbreviation, data);
+     }
+     }
+
+     var docStatesHtml = function(doc) {
+     start({
+     'headers' : {
+     'Content-Type' : 'text/html'
+     }
+     });
+     send('<html><body><table>');
+     send('<tr><th>ID</th><th>Key</th><th>Value</th></tr>')
+     while (row = viewStatesDoc()) {
+     send(''.concat('<tr>', '<td>' + toJSON(row.name) + '</td>', '<td>'
+     + toJSON(row.capital) + '</td>', '<td>' + toJSON(row.value)
+     + '</td>', '</tr>'));
+     }
+     send('</table></body></html>');
+
+     }*/
 
     function createDesignDocument(designDocument, designName, response) {
         var nanoDb = nano.db.use(dbName);
@@ -112,14 +139,23 @@ function designDocs(router, nano, dbName) {
                 },
                 'docStatesDoc': {
                     'map': docStatesDoc
+                },
+                'docNpcs': {
+                    'map': docNpcs
+                },
+                'docNpcsValue': {
+                    'map': docNpcsValue
+                },
+                'docNpcsQA': {
+                    'map': docNpcsQA
                 }
                 /*,
-                                "viewStatesDoc" : {
-                                    "map" : viewStatesDoc
-                                },
-                                "docStatesHtml" : {
-                                    "map" : docStatesHtml
-                                }*/
+                 'viewStatesDoc' : {
+                 'map' : viewStatesDoc
+                 },
+                 'docStatesHtml' : {
+                 'map' : docStatesHtml
+                 }*/
             }
         };
 
