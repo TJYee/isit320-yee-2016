@@ -10,7 +10,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     var size = 20;
     var cubes = [];
     var raycaster = null;
-    var boxTexture = 'images/retroblock.jpg';
 
     var keyMove = {
         moveForward: false,
@@ -148,7 +147,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var geometry = new THREE.BoxGeometry(size, size, size);
         var loader = new THREE.TextureLoader();
         var material = new THREE.MeshLambertMaterial({
-            map: loader.load(boxTexture)
+            map: loader.load('images/retroblock.jpg')
         });
 
         var cube = new THREE.Mesh(geometry, material);
@@ -198,16 +197,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
                     } else if (result[i][j] === 0) {
                         //console.log('Nothing at:' + j + ', ' + i);
                     } else if (result[i][j] == 3) {
-                        addSphere(scene, camera, wireFrame, j * size, i * size);
-                    }
-                }
-            }
-        });
-        $.getJSON('NPC000.json', function(result) {
-            for (var i = 0; i < Object.keys(result).length; i++) {
-                for (var j = 0; j < result[i].length; j++) {
-                    //console.log(i, j);
-                    if (result[i][j] != 0) {
                         addSphere(scene, camera, wireFrame, j * size, i * size);
                     }
                 }
