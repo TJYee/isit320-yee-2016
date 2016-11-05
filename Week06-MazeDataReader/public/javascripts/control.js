@@ -11,6 +11,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     var cubes = [];
     var raycaster = null;
     var boxTexture = 'images/retroblock.jpg';
+    var npcs = [];
 
     var keyMove = {
         moveForward: false,
@@ -40,6 +41,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         addSphere(scene, camera, false, 5, -100);
         */
         loadGrid(scene, camera, false);
+        loadNPCs(scene, camera, false);
 
         doPointerLock();
 
@@ -78,6 +80,10 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
 
         // Move the camera
         controls.update();
+        for(var i = 0; i < npcs.length; i++){
+            $('#npcs').append('<li>' + npcs[i] + '</li>');
+        }
+
 
         renderer.render(scene, camera);
     }
@@ -158,7 +164,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         return cube;
     }
 
-    function addSphere(sne, camera, wireFrame, x, z) {
+    function addSphere(scene, camera, wireFrame, x, z) {
         var geometry = new THREE.SphereGeometry(5, 25, 25);
         var material = new THREE.MeshNormalMaterial({
             //color: 0x00ffff,
@@ -169,6 +175,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         sphere.overdraw = true;
         sphere.position.set(x, 5, z);
         scene.add(sphere);
+        npcs.push(sphere.position.x);
         return sphere;
     }
 
@@ -197,12 +204,14 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
                         addCube(scene, camera, wireFrame, j * size, i * size);
                     } else if (result[i][j] === 0) {
                         //console.log('Nothing at:' + j + ', ' + i);
-                    } else if (result[i][j] == 3) {
-                        addSphere(scene, camera, wireFrame, j * size, i * size);
                     }
                 }
             }
         });
+
+    }
+
+    function loadNPCs(scene, camera, wireFrame) {
         $.getJSON('NPC000.json', function(result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {

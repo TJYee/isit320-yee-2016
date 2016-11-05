@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     'use strict';
     res.render('index', {
-        title: 'Week05-ThreeJsMaze'
+        title: 'Week06-MazeDataReader'
     });
 });
 

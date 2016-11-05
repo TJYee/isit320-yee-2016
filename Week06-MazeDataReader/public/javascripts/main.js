@@ -6,7 +6,8 @@ requirejs.config({
         'control': 'javascripts/control',
         'floor': 'javascripts/floor',
         'PointerLockControls': 'javascripts/PointerLockControls',
-        'PointerLockSetup': 'javascripts/PointerLockSetup'
+        'PointerLockSetup': 'javascripts/PointerLockSetup',
+        'Score': 'javascripts/Score'
     },
     shim: {
         'Three': {
