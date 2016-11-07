@@ -11,14 +11,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     var cubes = [];
     var raycaster = null;
     var boxTexture = 'images/retroblock.jpg';
-    var npcs = [];
-
-    var keyMove = {
-        moveForward: false,
-        moveBackward: false,
-        moveLeft: false,
-        moveRight: false
-    };
+    var NPCs = [];
 
     function Control(threeInit) {
         THREE = threeInit;
@@ -27,7 +20,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     }
 
     function init() {
-
         var screenWidth = window.innerWidth / window.innerHeight;
         camera = new THREE.PerspectiveCamera(75, screenWidth, 1, 1000);
 
@@ -42,6 +34,10 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         */
         loadGrid(scene, camera, false);
         loadNPCs(scene, camera, false);
+
+        for (var i = 0; i < NPCs.length; i++) {
+            $('#npcs').append('<li>' + NPCs[i].position + '</li>');
+        }
 
         doPointerLock();
 
@@ -64,7 +60,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     }
 
     function animate() {
-
         requestAnimationFrame(animate);
 
         var xAxis = new THREE.Vector3(1, 0, 0);
@@ -77,13 +72,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         //drawText(controlObject, position);
 
         collisionDetection(controls, cubes);
+        npcDetection(controls,NPCs);
 
         // Move the camera
         controls.update();
-        for(var i = 0; i < npcs.length; i++){
-            $('#npcs').append('<li>' + npcs[i] + '</li>');
-        }
 
+        $('#cameraX').html(Math.round(position.x / size));
+        $('#cameraZ').html(Math.round(position.z / size));
 
         renderer.render(scene, camera);
     }
@@ -144,16 +139,47 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         return false;
     };
 
+    var npcDetection = function(controls, npcs) {
+        var rays = [
+            //   Time    Degrees      words
+            new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
+            new THREE.Vector3(1, 0, 1), // 1  1:30,  45 degrees,  right deep
+            new THREE.Vector3(1, 0, 0), // 2  3:00,  90 degress,  right
+            new THREE.Vector3(1, 0, -1), // 3  4:30, 135 degrees,  right near
+            new THREE.Vector3(0, 0, -1), // 4  6:00  180 degress,  near
+            new THREE.Vector3(-1, 0, -1), // 5  7:30  225 degrees,  left near
+            new THREE.Vector3(-1, 0, 0), // 6  9:00  270 degrees,  left
+            new THREE.Vector3(-1, 0, 1) // 7 11:30  315 degrees,  left deep
+        ];
+
+        var position = controls.getObject().position;
+        var rayHits = [];
+        for (var index = 0; index < rays.length; index += 1) {
+
+            raycaster.set(position, rays[index]);
+
+            var intersections = raycaster.intersectObjects(npcs);
+
+            if (intersections.length > 0 && intersections[0].distance <= 3) {
+                controls.isOnObject(true);
+                console.log('Touching!');
+            }
+        }
+
+        return false;
+    };
+
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    function addCube(scene, camera, wireFrame, x, z) {
+    function addCube(scene, wireFrame, x, z) {
         var geometry = new THREE.BoxGeometry(size, size, size);
         var loader = new THREE.TextureLoader();
         var material = new THREE.MeshLambertMaterial({
+            wireframe: wireFrame,
             map: loader.load(boxTexture)
         });
 
@@ -164,7 +190,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         return cube;
     }
 
-    function addSphere(scene, camera, wireFrame, x, z) {
+    function addSphere(scene, wireFrame, x, z) {
         var geometry = new THREE.SphereGeometry(5, 25, 25);
         var material = new THREE.MeshNormalMaterial({
             //color: 0x00ffff,
@@ -172,17 +198,17 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         });
 
         var sphere = new THREE.Mesh(geometry, material);
-        sphere.overdraw = true;
+        //sphere.overdraw = true;
         sphere.position.set(x, 5, z);
         scene.add(sphere);
-        npcs.push(sphere.position.x);
+        NPCs.push(sphere);
         return sphere;
     }
 
-    function addShapes(scene, camera, wireFrame) {
+    function addShapes(scene, wireFrame) {
         for (var i = 0; i < 6; i++) {
-            addCube(scene, camera, wireFrame, 25, -i * 20);
-            addCube(scene, camera, wireFrame, -25, -i * 20);
+            addCube(scene, wireFrame, 25, -i * 20);
+            addCube(scene, wireFrame, -25, -i * 20);
         }
     }
 
@@ -195,13 +221,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         scene.add(light);
     }
 
-    function loadGrid(scene, camera, wireFrame) {
+    function loadGrid(scene, wireFrame) {
         $.getJSON('Grid000.json', function(result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
                     if (result[i][j] == 1) {
-                        addCube(scene, camera, wireFrame, j * size, i * size);
+                        addCube(scene, wireFrame, j * size, i * size);
                     } else if (result[i][j] === 0) {
                         //console.log('Nothing at:' + j + ', ' + i);
                     }
@@ -211,13 +237,14 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
 
     }
 
-    function loadNPCs(scene, camera, wireFrame) {
+    function loadNPCs(scene, wireFrame) {
         $.getJSON('NPC000.json', function(result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
-                    if (result[i][j] != 0) {
-                        addSphere(scene, camera, wireFrame, j * size, i * size);
+                    if (result[i][j] !== 0) {
+                        addSphere(scene, wireFrame, j * size, i * size);
+
                     }
                 }
             }

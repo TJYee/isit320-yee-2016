@@ -4,4 +4,4 @@ var Score = {
         name: 'Robin',
         value: 15
     }
-}
+};
