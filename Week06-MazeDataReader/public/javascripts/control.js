@@ -72,7 +72,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         //drawText(controlObject, position);
 
         collisionDetection(controls, cubes);
-        npcDetection(controls,NPCs);
+        npcDetection(controls, NPCs);
 
         // Move the camera
         controls.update();
