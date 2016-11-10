@@ -1,6 +1,6 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, PointerLockControls, PointerLockSetup) {
+define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (Floor, PointerLockControls, PointerLockSetup, Score) {
     'use strict';
     var scene = null;
     var camera = null;
@@ -11,12 +11,15 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     var cubes = [];
     var raycaster = null;
     var boxTexture = 'images/retroblock.jpg';
+    var score = Score;
     var NPCs = [];
 
     function Control(threeInit) {
         THREE = threeInit;
         init();
+
         animate();
+        console.log(score);
     }
 
     function init() {
@@ -29,15 +32,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         scene.fog = new THREE.Fog(0xffffff, 0, 750);
 
         /*
-        addShapes(scene, camera, false);
-        addSphere(scene, camera, false, 5, -100);
-        */
+         addShapes(scene, camera, false);
+         addSphere(scene, camera, false, 5, -100);
+         */
         loadGrid(scene, camera, false);
         loadNPCs(scene, camera, false);
 
-        for (var i = 0; i < NPCs.length; i++) {
-            $('#npcs').append('<li>' + NPCs[i].position + '</li>');
-        }
+
 
         doPointerLock();
 
@@ -94,7 +95,8 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var ps = new PointerLockSetup(controls);
     }
 
-    var collisionDetection = function(controls, cubes) {
+
+    var collisionDetection = function (controls, cubes) {
 
         function bounceBack(position, ray) {
             position.x -= ray.bounceDistance.x;
@@ -139,7 +141,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         return false;
     };
 
-    var npcDetection = function(controls, npcs) {
+    var npcDetection = function (controls, npcs) {
         var rays = [
             //   Time    Degrees      words
             new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
@@ -200,6 +202,10 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
         var sphere = new THREE.Mesh(geometry, material);
         //sphere.overdraw = true;
         sphere.position.set(x, 5, z);
+        sphere.gridPostion = {
+            xPos: x,
+            zPos: z
+        };
         scene.add(sphere);
         NPCs.push(sphere);
         return sphere;
@@ -222,7 +228,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     }
 
     function loadGrid(scene, wireFrame) {
-        $.getJSON('Grid000.json', function(result) {
+        $.getJSON('Grid000.json', function (result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
@@ -238,7 +244,19 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
     }
 
     function loadNPCs(scene, wireFrame) {
-        $.getJSON('NPC000.json', function(result) {
+        /*
+        $.getJSON('/viewNpcs', function (json) {
+            score.npcData = JSON.stringify(json);
+        }).fail(function (jqxhr, textStatus, error) {
+            var err = textStatus + ", " + error;
+            console.log({"Request Failed": err});
+            var response = JSON.parse(jqxhr.responseText);
+            var responseValue = JSON.stringify(response, null, 4);
+            console.log(responseValue);
+            alert('Database not connected' + responseValue);
+        });
+        */
+        $.getJSON('NPC000.json', function (result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
@@ -247,6 +265,10 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup'], function(Floor, Poi
 
                     }
                 }
+            }
+            for (var i = 0; i < NPCs.length; i++) {
+                var test = NPCs[i].gridPosition.xPos;
+                $('#npcs').append('<li>' + test  + '</li>');
             }
         });
     }
