@@ -20,6 +20,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
         init();
         animate();
 
+        //console.log(NPCs);
         console.log(score);
     }
 
@@ -140,33 +141,50 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
     };
 
     var npcDetection = function (controls, npcs) {
-        var rays = [
-            //   Time    Degrees      words
-            new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
-            new THREE.Vector3(1, 0, 1), // 1  1:30,  45 degrees,  right deep
-            new THREE.Vector3(1, 0, 0), // 2  3:00,  90 degress,  right
-            new THREE.Vector3(1, 0, -1), // 3  4:30, 135 degrees,  right near
-            new THREE.Vector3(0, 0, -1), // 4  6:00  180 degress,  near
-            new THREE.Vector3(-1, 0, -1), // 5  7:30  225 degrees,  left near
-            new THREE.Vector3(-1, 0, 0), // 6  9:00  270 degrees,  left
-            new THREE.Vector3(-1, 0, 1) // 7 11:30  315 degrees,  left deep
-        ];
+        /*
+         var rays = [
+         //   Time    Degrees      words
+         new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
+         new THREE.Vector3(1, 0, 1), // 1  1:30,  45 degrees,  right deep
+         new THREE.Vector3(1, 0, 0), // 2  3:00,  90 degress,  right
+         new THREE.Vector3(1, 0, -1), // 3  4:30, 135 degrees,  right near
+         new THREE.Vector3(0, 0, -1), // 4  6:00  180 degress,  near
+         new THREE.Vector3(-1, 0, -1), // 5  7:30  225 degrees,  left near
+         new THREE.Vector3(-1, 0, 0), // 6  9:00  270 degrees,  left
+         new THREE.Vector3(-1, 0, 1) // 7 11:30  315 degrees,  left deep
+         ];
+
+         var position = controls.getObject().position;
+         var rayHits = [];
+         for (var index = 0; index < rays.length; index ++) {
+
+         raycaster.set(position, rays[index]);
+
+         var intersections = raycaster.intersectObjects(npcs);
+
+         if (intersections.length > 0 && intersections[0].distance <= 3) {
+         controls.isOnObject(true);
+         }
+         }
+         */
 
         var position = controls.getObject().position;
-        var rayHits = [];
-        for (var index = 0; index < rays.length; index += 1) {
+        var npcList = [];
 
-            raycaster.set(position, rays[index]);
-
-            var intersections = raycaster.intersectObjects(npcs);
-
-            if (intersections.length > 0 && intersections[0].distance <= 3) {
-                controls.isOnObject(true);
-                console.log('Touching!');
-            }
+        for(var npc in npcs){
+            npcList.push(npc.gridPostion);
         }
+        //console.log(npcList);
+        /*
+        for (var i = 0; i < npcs.length; i++) {
+            if ((Math.round(position.x / 20) == npcList[i].xPos) &&
+                (Math.round(position.z / 20) == npcList[i].zPos)) {
+                $('#touch').html('True');
+            } else {
+                $('#touch').html('False');
+            }
+        }*/
 
-        return false;
     };
 
     function onWindowResize() {
@@ -203,6 +221,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
 
         $('#npcs').append('<li>XPos: ' + sphere.gridPostion.xPos +
             ' ZPos: ' + sphere.gridPostion.zPos + '</li>');
+        console.log(NPCs);
 
         return sphere;
     }
@@ -225,7 +244,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
 
     function loadGrid(scene, wireFrame) {
 
-        // Load Box texture
+        // Load Grid texture
         var loader = new THREE.TextureLoader();
         var material = new THREE.MeshLambertMaterial({
             wireframe: wireFrame,
@@ -244,16 +263,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
                 }
             }
         });
-
     }
 
     function loadNPCs(scene, wireFrame) {
         $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function (json) {
-            //score.npcData = JSON.stringify(json);
-            console.log(json);
-            for(var npc in Object.keys(json)){
-                //score.npcData = npc;
-                console.log(npc);
+            for (var i = 0; i < json.rows.length; i++) {
+                score.npcData[json.rows[i].value.id] = json.rows[i].value;
+                //console.log(json.rows[i].value);
             }
         }).fail(function (jqxhr, textStatus, error) {
             var err = textStatus + ", " + error;
