@@ -10,15 +10,16 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
     var size = 20;
     var cubes = [];
     var raycaster = null;
-    var boxTexture = 'images/retroblock.jpg';
+
     var score = Score;
     var NPCs = [];
 
     function Control(threeInit) {
         THREE = threeInit;
-        init();
 
+        init();
         animate();
+
         console.log(score);
     }
 
@@ -37,8 +38,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
          */
         loadGrid(scene, camera, false);
         loadNPCs(scene, camera, false);
-
-
 
         doPointerLock();
 
@@ -94,7 +93,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
 
         var ps = new PointerLockSetup(controls);
     }
-
 
     var collisionDetection = function (controls, cubes) {
 
@@ -177,14 +175,8 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    function addCube(scene, wireFrame, x, z) {
+    function addCube(scene, material, x, z) {
         var geometry = new THREE.BoxGeometry(size, size, size);
-        var loader = new THREE.TextureLoader();
-        var material = new THREE.MeshLambertMaterial({
-            wireframe: wireFrame,
-            map: loader.load(boxTexture)
-        });
-
         var cube = new THREE.Mesh(geometry, material);
         cube.position.set(x, size / 2, z);
         scene.add(cube);
@@ -203,11 +195,15 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
         //sphere.overdraw = true;
         sphere.position.set(x, 5, z);
         sphere.gridPostion = {
-            xPos: x,
-            zPos: z
+            xPos: Math.round(x / size),
+            zPos: Math.round(z / size)
         };
         scene.add(sphere);
         NPCs.push(sphere);
+
+        $('#npcs').append('<li>XPos: ' + sphere.gridPostion.xPos +
+            ' ZPos: ' + sphere.gridPostion.zPos + '</li>');
+
         return sphere;
     }
 
@@ -228,12 +224,20 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
     }
 
     function loadGrid(scene, wireFrame) {
+
+        // Load Box texture
+        var loader = new THREE.TextureLoader();
+        var material = new THREE.MeshLambertMaterial({
+            wireframe: wireFrame,
+            map: loader.load('images/retroblock.jpg')
+        });
+
         $.getJSON('Grid000.json', function (result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
                     if (result[i][j] == 1) {
-                        addCube(scene, wireFrame, j * size, i * size);
+                        addCube(scene, material, j * size, i * size);
                     } else if (result[i][j] === 0) {
                         //console.log('Nothing at:' + j + ', ' + i);
                     }
@@ -244,9 +248,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
     }
 
     function loadNPCs(scene, wireFrame) {
-        /*
-        $.getJSON('/viewNpcs', function (json) {
-            score.npcData = JSON.stringify(json);
+        $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function (json) {
+            //score.npcData = JSON.stringify(json);
+            console.log(json);
+            for(var npc in Object.keys(json)){
+                //score.npcData = npc;
+                console.log(npc);
+            }
         }).fail(function (jqxhr, textStatus, error) {
             var err = textStatus + ", " + error;
             console.log({"Request Failed": err});
@@ -255,7 +263,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
             console.log(responseValue);
             alert('Database not connected' + responseValue);
         });
-        */
+
         $.getJSON('NPC000.json', function (result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
@@ -265,10 +273,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
 
                     }
                 }
-            }
-            for (var i = 0; i < NPCs.length; i++) {
-                var test = NPCs[i].gridPosition.xPos;
-                $('#npcs').append('<li>' + test  + '</li>');
             }
         });
     }
