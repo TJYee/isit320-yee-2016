@@ -1,7 +1,3 @@
-/**
- * New node file
- */
-
 function designDocs(router, nano, dbName) {
     'use strict';
 
@@ -49,8 +45,8 @@ function designDocs(router, nano, dbName) {
     };
 
     var docNpcs = function(doc) {
-        emit(doc.id, {
-            'npc_id': doc.npc_id,
+        emit(doc.npc_id, {
+            'id': doc.id,
             'npc_name': doc.npc_name,
             'description': doc.description,
             'color': doc.color,

@@ -83,6 +83,7 @@ function views(router, nano, dbName) {
         });
     });
 
+    // NPC Views
     router.get('/viewNpcs', function(request, response) {
         console.log('viewNpcs called.');
         var doc = request.query.designDoc;
