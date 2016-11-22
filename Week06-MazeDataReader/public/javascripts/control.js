@@ -1,6 +1,6 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (Floor, PointerLockControls, PointerLockSetup, Score) {
+define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(Floor, PointerLockControls, PointerLockSetup, Score) {
     'use strict';
     var scene = null;
     var camera = null;
@@ -20,8 +20,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
         init();
         animate();
 
-        //console.log(NPCs);
+        console.log(NPCs);
         console.log(score);
+        console.log(score.npcData);
+        for(var i = 0; i < NPCs.length; i++){
+            console.log('lo');
+            console.log(NPCs[i]);
+        }
     }
 
     function init() {
@@ -95,7 +100,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
         var ps = new PointerLockSetup(controls);
     }
 
-    var collisionDetection = function (controls, cubes) {
+    var collisionDetection = function(controls, cubes) {
 
         function bounceBack(position, ray) {
             position.x -= ray.bounceDistance.x;
@@ -140,7 +145,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
         return false;
     };
 
-    var npcDetection = function (controls, npcs) {
+    var npcDetection = function(controls, npcs) {
         /*
          var rays = [
          //   Time    Degrees      words
@@ -169,22 +174,16 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
          */
 
         var position = controls.getObject().position;
-        var npcList = [];
-
-        for(var npc in npcs){
-            npcList.push(npc.gridPostion);
-        }
-        //console.log(npcList);
-        /*
+        var touch = 'true';
         for (var i = 0; i < npcs.length; i++) {
-            if ((Math.round(position.x / 20) == npcList[i].xPos) &&
-                (Math.round(position.z / 20) == npcList[i].zPos)) {
-                $('#touch').html('True');
+            if ((Math.round(position.x / size) == npcs[i].gridPostion.xPos) &&
+                (Math.round(position.z / size) == npcs[i].gridPostion.zPos)) {
+                touch = 'true';
             } else {
-                $('#touch').html('False');
+                touch = 'false';
             }
-        }*/
-
+        }
+        $('#touch').html(touch);
     };
 
     function onWindowResize() {
@@ -221,7 +220,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
 
         $('#npcs').append('<li>XPos: ' + sphere.gridPostion.xPos +
             ' ZPos: ' + sphere.gridPostion.zPos + '</li>');
-        console.log(NPCs);
 
         return sphere;
     }
@@ -251,7 +249,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
             map: loader.load('images/retroblock.jpg')
         });
 
-        $.getJSON('Grid000.json', function (result) {
+        $.getJSON('Grid000.json', function(result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
@@ -266,31 +264,38 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function (
     }
 
     function loadNPCs(scene, wireFrame) {
-        $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function (json) {
+        // Load Database Data into score.npcData
+        $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function(json) {
             for (var i = 0; i < json.rows.length; i++) {
-                score.npcData[json.rows[i].value.id] = json.rows[i].value;
-                //console.log(json.rows[i].value);
+                score.npcData[json.rows[i].key] = json.rows[i].value;
+                //console.log(json.rows[i]);
             }
-        }).fail(function (jqxhr, textStatus, error) {
-            var err = textStatus + ", " + error;
-            console.log({"Request Failed": err});
+        }).fail(function(jqxhr, textStatus, error) {
+            var err = textStatus + ', ' + error;
+            console.log({
+                'Request Failed': err
+            });
             var response = JSON.parse(jqxhr.responseText);
             var responseValue = JSON.stringify(response, null, 4);
             console.log(responseValue);
             alert('Database not connected' + responseValue);
         });
 
-        $.getJSON('NPC000.json', function (result) {
+        // Iterate over NPC000.json file
+        $.getJSON('NPC000.json', function(result) {
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
                     if (result[i][j] !== 0) {
                         addSphere(scene, wireFrame, j * size, i * size);
 
+                        //console.log(score.npcData[1]);
                     }
                 }
             }
         });
+
+
     }
 
     return Control;
