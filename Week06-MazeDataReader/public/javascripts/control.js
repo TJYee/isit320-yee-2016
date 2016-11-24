@@ -23,10 +23,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         console.log(NPCs);
         console.log(score);
         console.log(score.npcData);
-        for(var i = 0; i < NPCs.length; i++){
-            console.log('lo');
-            console.log(NPCs[i]);
-        }
+        console.log(score.npcData['1']);
     }
 
     function init() {
@@ -146,41 +143,13 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
     };
 
     var npcDetection = function(controls, npcs) {
-        /*
-         var rays = [
-         //   Time    Degrees      words
-         new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
-         new THREE.Vector3(1, 0, 1), // 1  1:30,  45 degrees,  right deep
-         new THREE.Vector3(1, 0, 0), // 2  3:00,  90 degress,  right
-         new THREE.Vector3(1, 0, -1), // 3  4:30, 135 degrees,  right near
-         new THREE.Vector3(0, 0, -1), // 4  6:00  180 degress,  near
-         new THREE.Vector3(-1, 0, -1), // 5  7:30  225 degrees,  left near
-         new THREE.Vector3(-1, 0, 0), // 6  9:00  270 degrees,  left
-         new THREE.Vector3(-1, 0, 1) // 7 11:30  315 degrees,  left deep
-         ];
-
-         var position = controls.getObject().position;
-         var rayHits = [];
-         for (var index = 0; index < rays.length; index ++) {
-
-         raycaster.set(position, rays[index]);
-
-         var intersections = raycaster.intersectObjects(npcs);
-
-         if (intersections.length > 0 && intersections[0].distance <= 3) {
-         controls.isOnObject(true);
-         }
-         }
-         */
 
         var position = controls.getObject().position;
-        var touch = 'true';
+        var touch = 'false';
         for (var i = 0; i < npcs.length; i++) {
             if ((Math.round(position.x / size) == npcs[i].gridPostion.xPos) &&
                 (Math.round(position.z / size) == npcs[i].gridPostion.zPos)) {
                 touch = 'true';
-            } else {
-                touch = 'false';
             }
         }
         $('#touch').html(touch);
@@ -283,13 +252,17 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
 
         // Iterate over NPC000.json file
         $.getJSON('NPC000.json', function(result) {
+            var npcCount = 0;
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
                     if (result[i][j] !== 0) {
+                        npcCount++;
                         addSphere(scene, wireFrame, j * size, i * size);
 
                         //console.log(score.npcData[1]);
+                        //NPCs[npcCount].name = score.npcData[npcCount].name;
+
                     }
                 }
             }
