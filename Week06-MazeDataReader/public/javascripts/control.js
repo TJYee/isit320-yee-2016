@@ -147,24 +147,26 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         var detection = {
             touch: false,
             npcID: 1,
-            npcName: ''
+            npcName: '',
+            description: ''
         }
-        $('#debug').html('');
+        $('#feedback').html('');
         for (var i = 0; i < npcList.length; i++) {
             npcList[i].name = score.npcData[i + 1].npc_name;
+            npcList[i].description = score.npcData[i + 1].description;
             if ((Math.round(position.x / size) == npcList[i].gridPostion.xPos) &&
                 (Math.round(position.z / size) == npcList[i].gridPostion.zPos)) {
                 detection.touch = true;
                 detection.npcID += i;
                 detection.npcName = npcList[i].name;
+                detection.description = npcList[i].description;
             }
         }
-        //$('#touch').html(detection.touch.toString());
-        if(detection.touch){
-            $('#debug').html(detection.npcName);
-        }
 
-        //console.log(score.npcData[1]);
+        if(detection.touch){
+            $('#feedback').html('Name: ' + detection.npcName + '</br>' +
+                'Description: ' + detection.description);
+        }
     };
 
     function onWindowResize() {
