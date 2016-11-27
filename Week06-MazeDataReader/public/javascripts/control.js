@@ -19,11 +19,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
 
         init();
         animate();
-
-        console.log(NPCs);
-        console.log(score);
-        console.log(score.npcData);
-        console.log(score.npcData['1']);
     }
 
     function init() {
@@ -75,7 +70,9 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         //drawText(controlObject, position);
 
         collisionDetection(controls, cubes);
-        npcDetection(controls, NPCs);
+        if(score.npcData){
+            npcDetection(controls, NPCs);
+        }
 
         // Move the camera
         controls.update();
@@ -142,17 +139,32 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         return false;
     };
 
-    var npcDetection = function(controls, npcs) {
+    var npcDetection = function(controls) {
 
         var position = controls.getObject().position;
-        var touch = 'false';
-        for (var i = 0; i < npcs.length; i++) {
-            if ((Math.round(position.x / size) == npcs[i].gridPostion.xPos) &&
-                (Math.round(position.z / size) == npcs[i].gridPostion.zPos)) {
-                touch = 'true';
+        var npcList = NPCs;
+
+        var detection = {
+            touch: false,
+            npcID: 1,
+            npcName: ''
+        }
+        $('#debug').html('');
+        for (var i = 0; i < npcList.length; i++) {
+            npcList[i].name = score.npcData[i + 1].npc_name;
+            if ((Math.round(position.x / size) == npcList[i].gridPostion.xPos) &&
+                (Math.round(position.z / size) == npcList[i].gridPostion.zPos)) {
+                detection.touch = true;
+                detection.npcID += i;
+                detection.npcName = npcList[i].name;
             }
         }
-        $('#touch').html(touch);
+        //$('#touch').html(detection.touch.toString());
+        if(detection.touch){
+            $('#debug').html(detection.npcName);
+        }
+
+        //console.log(score.npcData[1]);
     };
 
     function onWindowResize() {
@@ -237,7 +249,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function(json) {
             for (var i = 0; i < json.rows.length; i++) {
                 score.npcData[json.rows[i].key] = json.rows[i].value;
-                //console.log(json.rows[i]);
             }
         }).fail(function(jqxhr, textStatus, error) {
             var err = textStatus + ', ' + error;
@@ -252,23 +263,15 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
 
         // Iterate over NPC000.json file
         $.getJSON('NPC000.json', function(result) {
-            var npcCount = 0;
             for (var i = 0; i < Object.keys(result).length; i++) {
                 for (var j = 0; j < result[i].length; j++) {
                     //console.log(i, j);
                     if (result[i][j] !== 0) {
-                        npcCount++;
                         addSphere(scene, wireFrame, j * size, i * size);
-
-                        //console.log(score.npcData[1]);
-                        //NPCs[npcCount].name = score.npcData[npcCount].name;
-
                     }
                 }
             }
         });
-
-
     }
 
     return Control;
