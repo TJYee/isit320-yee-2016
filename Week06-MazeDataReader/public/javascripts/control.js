@@ -70,7 +70,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         //drawText(controlObject, position);
 
         collisionDetection(controls, cubes);
-        if(score.npcData){
+        if (score.npcData) {
             npcDetection(controls, NPCs);
         }
 
@@ -149,7 +149,8 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
             npcID: 1,
             npcName: '',
             description: ''
-        }
+        };
+
         $('#feedback').html('');
         for (var i = 0; i < npcList.length; i++) {
             npcList[i].name = score.npcData[i + 1].npc_name;
@@ -163,7 +164,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
             }
         }
 
-        if(detection.touch){
+        if (detection.touch) {
             $('#feedback').html('Name: ' + detection.npcName + '</br>' +
                 'Description: ' + detection.description);
         }
