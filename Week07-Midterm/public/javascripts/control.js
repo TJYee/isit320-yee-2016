@@ -1,7 +1,9 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(Floor, PointerLockControls, PointerLockSetup, Score) {
+define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score', 'collisions', 'npcs'],
+        function(Floor, PointerLockControls, PointerLockSetup, Score, collisions, npcs) {
     'use strict';
+
     var scene = null;
     var camera = null;
     var renderer = null;
@@ -13,6 +15,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
 
     var score = Score;
     var NPCs = [];
+    //var collision = new collisions(THREE);
 
     function Control(threeInit) {
         THREE = threeInit;
@@ -39,7 +42,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         loadNPCs(scene, camera, false);
 
         doPointerLock();
-
         addLights();
 
         var floor = new Floor(THREE);
@@ -70,7 +72,8 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
 
         //drawText(controlObject, position);
 
-        collisionDetection(controls, cubes);
+        var collision = new collisions(THREE);
+        collision.collisionDetection(controls, cubes);
         if (score.npcData) {
             messageUpdater();
             npcDetection(controls, NPCs);
@@ -88,8 +91,8 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
     function messageUpdater() {
         $('#npcs').empty();
         $('#debug').empty();
-        for(var i = 0; i < NPCs.length; i++){
-            if(NPCs[i]) {
+        for (var i = 0; i < NPCs.length; i++) {
+            if (NPCs[i]) {
                 $('#npcs').append('<li>ID: ' + NPCs[i].idNumber + ' XPos: ' + NPCs[i].gridPostion.xPos +
                     ' ZPos: ' + NPCs[i].gridPostion.zPos + '</li>');
             } else {
@@ -109,6 +112,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         var ps = new PointerLockSetup(controls);
     }
 
+    /*
     var collisionDetection = function(controls, cubes) {
 
         function bounceBack(position, ray) {
@@ -153,6 +157,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
 
         return false;
     };
+    */
 
     var npcDetection = function(controls) {
 
@@ -219,7 +224,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
         NPCs.push(sphere);
 
         //$('#npcs').append('<li>ID: ' + id + ' XPos: ' + sphere.gridPostion.xPos +
-            //' ZPos: ' + sphere.gridPostion.zPos + '</li>');
+        //' ZPos: ' + sphere.gridPostion.zPos + '</li>');
 
         return sphere;
     }
@@ -287,11 +292,11 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
                     }
                 }
             }
-        }).done(function () {
+        }).done(function() {
             showDebug('Grid loaded second success');
-        }).fail(function (jqxhr, textStatus, error) {
+        }).fail(function(jqxhr, textStatus, error) {
             showDebug('Grid loaded error: ' + jqxhr.status + ' ' + textStatus + ' ' + error);
-        }).always(function () {
+        }).always(function() {
             showDebug('Grid loaded complete');
         });
     }
@@ -327,7 +332,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score'], function(F
     }
 
     // Debug Display
-    function showDebug(err){
+    function showDebug(err) {
         console.log(err);
         $('#debug').html(err);
     }
