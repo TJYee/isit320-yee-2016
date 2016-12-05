@@ -2,6 +2,71 @@
  * @name Control
  */
 
+$(document).ready(function() {
+    'use strict';
+
+    var data = [];
+    var index = 0;
+
+    $('#read').click(function(){
+        $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function(json){
+            $('#debug').empty();
+            data = [];
+            for (var i = 0; i < json.length; i++){
+                data.push(json[i].value);
+            }
+            if(data[index] != null){
+                emptyInput();
+                $('#index').val('Index: ' + index);
+                $('#npcName').val(data[index].npc_name);
+                $('#npcDescription').val(data[index].description);
+                $('#npcID').val(data[index].id);
+                $('#npcQuestion').val(data[index].question);
+            }else{
+                emptyInput();
+                $('#index').val('No Data Found');
+            }
+        }).fail(function(jqxhr, textStatus, error) {
+            var response = JSON.parse(jqxhr.responseText);
+            response.genericError = error;
+            response.statusText = textStatus;
+            $('#debug').html(JSON.stringify(response));
+        });
+    })
+    $('#back').click(function(){
+        if(index > 0){
+            index--;
+            emptyInput();
+            $('#index').val('Index: ' + index);
+            $('#npcName').val(data[index].npc_name);
+            $('#npcDescription').val(data[index].description);
+            $('#npcID').val(data[index].id);
+            $('#npcQuestion').val(data[index].question);
+        }
+    });
+    $('#forward').click(function(){
+        if(index < data.length - 1){
+            index++;
+            emptyInput();
+            $('#index').val('Index: ' + index);
+            $('#npcName').val(data[index].npc_name);
+            $('#npcDescription').val(data[index].description);
+            $('#npcID').val(data[index].id);
+            $('#npcQuestion').val(data[index].question);
+        }
+    });
+
+    var emptyInput = function(){
+        $('#index').val('');
+        $('#npcName').val('');
+        $('#npcDescription').val('');
+        $('#npcID').val('');
+        $('#npcQuestion').val('');
+    }
+
+});
+
+
 var myModule = angular.module('myModule', ['ngRoute']);
 
 var queryController = myModule.controller('QueryController',
@@ -33,6 +98,8 @@ function runQuery(query, $q) {
     });
     return defers.promise;
 }
+
+
 
 queryController.delete = function($q) {
     'use strict';
@@ -85,14 +152,14 @@ queryController.design = function($q) {
     return runQuery('/designDoc', $q);
 };
 
+queryController.readOne = function($q) {
+    'use strict';
+    return runQuery('/read?designDoc=states&view=viewOneDoc', $q);
+};
+
 queryController.viewBulk = function($q) {
     'use strict';
     return runQuery('/viewBulk?designDoc=states&view=docBulk', $q);
-};
-
-queryController.readOne = function($q) {
-    'use strict';
-    return runQuery('/read?docName=statesDoc', $q);
 };
 
 queryController.viewOneDoc = function($q) {
@@ -219,10 +286,3 @@ myModule.config(function($routeProvider) {
         redirectTo: '/'
     });
 });
-
-/*
-window.onload = function() {
-   $.getJSON('/read?docName=3e82f91797ece19dcfa2285dde098e8e', function(result) {
-       console.log(result);
-   });
-} */

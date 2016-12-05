@@ -65,22 +65,19 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score', 'collisions
             var controlObject = controls.getObject();
             var position = controlObject.position;
 
-            //drawText(controlObject, position);
-
             collision.collisionDetection(controls, cubes);
-            if (score.npcData) {
-                messageUpdater();
-                collision.npcDetection(controls, NPCs);
-            }
+            collision.npcDetection(controls, NPCs);
+            messageUpdater();
+
 
             // Move the camera
             controls.update();
 
-            score.mainCharacter.xPos = Math.round(position.x / size);
-            score.mainCharacter.zPos = Math.round(position.z / size);
+            score.mainCharacter.x = Math.round(position.x / size);
+            score.mainCharacter.z = Math.round(position.z / size);
 
-            $('#cameraX').html(Math.round(position.x / size));
-            $('#cameraZ').html(Math.round(position.z / size));
+            $('#cameraX').html(score.mainCharacter.x);
+            $('#cameraZ').html(score.mainCharacter.z);
 
             renderer.render(scene, camera);
         }
@@ -93,7 +90,7 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score', 'collisions
                     $('#npcs').append('<li>ID: ' + NPCs.npcList[i].idNumber + ' XPos: ' + NPCs.npcList[i].gridPostion.xPos +
                         ' ZPos: ' + NPCs.npcList[i].gridPostion.zPos + '</li>');
                 } else {
-                    $('#debug').html('yea');
+                    $('#debug').html('Error in npcList!');
                 }
             }
         }

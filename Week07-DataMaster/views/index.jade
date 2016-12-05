@@ -17,21 +17,6 @@ block content
             a(href='/#/deleteDb') DeleteDb
     ul
         li
-            a(href='/#/insertStatesBulk') Insert States in Bulk
-        li
-            a(href='/#/insertStatesOneDoc') Insert States as one document
-
-    ul
-        li
-            a(href='/#/readOne') Read One Doc
-        li
-            a(href='/#/viewOneDoc') View States from one document
-        li
-            a(href='/#/viewBulk') Angular View Bulk Doc
-        li
-            a(href='/#/viewBulkStatesCapital') Angular View States Capital Bulk
-    ul
-        li
             a(href='/#/insertNpcsBulk') Insert Npcs in Bulk
         li
             a(href='/#/insertNpcsOneDoc') Insert Npcs as one document
@@ -42,22 +27,31 @@ block content
         li
             a(href='/#/viewNpcsQA') View Npc Q&A
 
-    h1 Should we template on both ends?
+    div
+        a(href='')#read Read One Doc
+    div
+        input#index(type="text", value=)
+    div
+        p Name
+        input#npcName(type="text", value=)
+    div
+        p Description
+        input#npcDescription(type="text", value=)
+    div
+        p ID
+        input#npcID(type="text", value=)
+    div
+        p Question
+        input#npcQuestion(type="text", value=)
 
-    p
-        | In the examples below we use templating on the server side with Handlebars.
-        | Handlebars is a great library, but some say we should not mix it with Angular as I
-        | do below. When we do, the app <strong>may</strong> hang after these calls.
-        | If you have problems, use the technique shown in 'Angular View Bulk Doc'
-        | and 'Angular View States Capital' above.
-    ul
-        li
-            a(href='/viewBulkTemplate?designDoc=states&view=docBulk') Template States Bulk
-        li
-            a(href='/viewStateCapitalTemplate?designDoc=states&view=docStateCapital') Template State Capital
+    div
+        button#back Back
+    div
+        button#forward Forward
 
 
-    p {{debug}}
+    div
+        p#debug {{debug}}
 
     div
         div(data-ng-view='')

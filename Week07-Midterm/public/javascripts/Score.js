@@ -5,7 +5,8 @@ define([], function() {
         'npcData': {},
         'mainCharacter': {
             name: 'Player',
-            value: 15
+            x: 0,
+            z: 0
         }
     };
 
