@@ -67,7 +67,7 @@ define(['Score'], function(Score) {
                 npcID: 0,
                 description: '',
                 xPos: 0,
-                zPos:0
+                zPos: 0
             };
 
             $('#feedback').empty();

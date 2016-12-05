@@ -69,7 +69,6 @@ define(['floor', 'PointerLockControls', 'PointerLockSetup', 'Score', 'collisions
             collision.npcDetection(controls, NPCs);
             messageUpdater();
 
-
             // Move the camera
             controls.update();
 
