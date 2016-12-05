@@ -4,7 +4,7 @@ define([], function() {
     var Score = {
         'npcData': {},
         'mainCharacter': {
-            name: 'Robin',
+            name: 'Player',
             value: 15
         }
     };

@@ -91,8 +91,8 @@ function views(router, nano, dbName) {
         var nanoDb = nano.db.use(dbName);
         nanoDb.view(doc, view, function(err, body) {
             if (!err) {
-                console.log(body);
-                response.send(body);
+                console.log(body.rows);
+                response.send(body.rows);
             } else {
                 console.log(err);
                 response.status(err.statusCode).send(err);

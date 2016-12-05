@@ -47,6 +47,7 @@ function designDocs(router, nano, dbName) {
     var docNpcs = function(doc) {
         emit(doc.npc_id, {
             'id': doc.id,
+            'npc_id': doc.npc_id,
             'npc_name': doc.npc_name,
             'description': doc.description,
             'color': doc.color,
