@@ -1,0 +1,55 @@
+{
+  "_id": "npcObjects",
+  "docs": [
+    {
+      "id": "Potato",
+      "npc_id": 1,
+      "npc_name": "Mary",
+      "description": "A Potato with an M scribbled into it",
+      "color": "#00FFFF",
+      "value": 8,
+      "question": "2 + 2 = 4",
+      "answer": true
+    },
+    {
+      "id": "Alpacca",
+      "npc_id": 2,
+      "npc_name": "Tom",
+      "description": "A beautiful Alpacca with glorious curls",
+      "color": "#0000FF",
+      "value": 4,
+      "question": "War is good for something",
+      "answer": false
+    },
+    {
+      "id": "Brush",
+      "npc_id": 3,
+      "npc_name": "Paint",
+      "description": "A brush dipped in colorful paint",
+      "color": "#0000FF",
+      "value": 5,
+      "question": "Painting is art",
+      "answer": true
+    },
+    {
+      "id": "Rock",
+      "npc_id": 4,
+      "npc_name": "Bob",
+      "description": "A rock with an engraving on it",
+      "color": "#0000FF",
+      "value": 10,
+      "question": "I walk a lot",
+      "answer": false
+    },
+    {
+      "id": "Fish",
+      "npc_id": 5,
+      "npc_name": "Fred",
+      "description": "A generic looking fish",
+      "color": "#0000FF",
+      "value": 1,
+      "question": "I swim a lot",
+      "answer": true
+    }
+  ]
+}
