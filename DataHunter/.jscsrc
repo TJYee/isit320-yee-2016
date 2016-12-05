@@ -1,8 +1,0 @@
-{
-    "preset": "google",
-    "validateIndentation": 4,
-    "excludeFiles": ["**/node_modules/**", "**/components/**", "**/bower_components/**",
-        "**/three.js", "**/PointerLockControls.js"],
-    "requireCamelCaseOrUpperCaseIdentifiers": false,
-    "maximumLineLength": 200
-}
