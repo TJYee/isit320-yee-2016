@@ -8,21 +8,21 @@ $(document).ready(function() {
     var data = [];
     var index = 0;
 
-    $('#read').click(function(){
-        $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function(json){
+    $('#read').click(function() {
+        $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function(json) {
             $('#debug').empty();
             data = [];
-            for (var i = 0; i < json.length; i++){
+            for (var i = 0; i < json.length; i++) {
                 data.push(json[i].value);
             }
-            if(data[index] != null){
+            if (data[index] !== null) {
                 emptyInput();
                 $('#index').val('Index: ' + index);
                 $('#npcName').val(data[index].npc_name);
                 $('#npcDescription').val(data[index].description);
                 $('#npcID').val(data[index].id);
                 $('#npcQuestion').val(data[index].question);
-            }else{
+            } else {
                 emptyInput();
                 $('#index').val('No Data Found');
             }
@@ -32,9 +32,10 @@ $(document).ready(function() {
             response.statusText = textStatus;
             $('#debug').html(JSON.stringify(response));
         });
-    })
-    $('#back').click(function(){
-        if(index > 0){
+    });
+
+    $('#back').click(function() {
+        if (index > 0) {
             index--;
             emptyInput();
             $('#index').val('Index: ' + index);
@@ -44,8 +45,9 @@ $(document).ready(function() {
             $('#npcQuestion').val(data[index].question);
         }
     });
-    $('#forward').click(function(){
-        if(index < data.length - 1){
+
+    $('#forward').click(function() {
+        if (index < data.length - 1) {
             index++;
             emptyInput();
             $('#index').val('Index: ' + index);
@@ -56,32 +58,29 @@ $(document).ready(function() {
         }
     });
 
-    var emptyInput = function(){
+    function emptyInput() {
         $('#index').val('');
         $('#npcName').val('');
         $('#npcDescription').val('');
         $('#npcID').val('');
         $('#npcQuestion').val('');
     }
-
 });
-
 
 var myModule = angular.module('myModule', ['ngRoute']);
 
-var queryController = myModule.controller('QueryController',
-    function($scope, result) {
-        'use strict';
-        if (result.ok) {
-            $scope.result = 'It worked';
-        } else if (result.requestFailed) {
-            $scope.result = JSON.stringify(result.requestFailed, null, 4);
-        } else {
-            $scope.result = result;
-        }
+var queryController = myModule.controller('QueryController', function($scope, result) {
+    'use strict';
+    if (result.ok) {
+        $scope.result = 'It worked';
+    } else if (result.requestFailed) {
+        $scope.result = JSON.stringify(result.requestFailed, null, 4);
+    } else {
+        $scope.result = result;
+    }
 
-        $scope.docs = result.docs;
-    });
+    $scope.docs = result.docs;
+});
 
 function runQuery(query, $q) {
     'use strict';
@@ -98,8 +97,6 @@ function runQuery(query, $q) {
     });
     return defers.promise;
 }
-
-
 
 queryController.delete = function($q) {
     'use strict';
