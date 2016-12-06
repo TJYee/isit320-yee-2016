@@ -6,8 +6,9 @@
 requirejs.config({
     baseUrl: '.',
     paths: {
-        'jquery': 'components/jquery/dist/jquery',
-        'control': 'javascripts/control'
+        'jquery': '/components/jquery/dist/jquery',
+        'control': '/javascripts/control',
+        'requirejs': '/components/requirejs/require'
     }
 });
 

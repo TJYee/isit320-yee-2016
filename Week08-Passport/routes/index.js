@@ -34,9 +34,9 @@ router.get('/logout', function(request, response) {
     response.redirect('/');
 });
 
-router.get('/info', function(request, response) {
+router.get('/status', function(request, response) {
     'use strict';
-    console.log('Info called');
+    console.log('Status called');
     console.log('Auth: ' + request.isAuthenticated('google'));
     response.send({
         result: 'Success',

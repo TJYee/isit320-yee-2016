@@ -21,11 +21,11 @@ function ensureAuthenticated(req, res, next) {
 
 router.get('/account', ensureAuthenticated, function(request, response) {
     'use strict';
-    cosnole.log(request.user);
     response.render('profile-google', {
         title: 'Google Account',
         user: request.user
     });
+    console.log(response.user);
 });
 
 passport.use(new GoogleStrategy({
