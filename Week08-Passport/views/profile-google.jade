@@ -1,0 +1,11 @@
+extends layout
+
+block content
+
+    p= user.displayName
+
+    img(src = user.photos[0].value)
+
+    p= user._json.tagline
+
+    p= user._json.aboutMe
