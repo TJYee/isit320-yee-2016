@@ -1,7 +1,9 @@
-define(function(){
-
-    var nameController = function($scope, result) {
+define(['runQuery'], function (runQuery) {
+    var nameController = function (query, data) {
         'use strict';
+
+        var $scope = $('#debug');
+        var docs = $('#docs');
         if (result.ok) {
             $scope.result = 'It worked';
         } else if (result.requestFailed) {

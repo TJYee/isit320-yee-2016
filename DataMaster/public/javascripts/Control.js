@@ -2,6 +2,7 @@
  * @name Control
  */
 
+
 $(document).ready(function() {
     'use strict';
 
@@ -9,7 +10,7 @@ $(document).ready(function() {
     var index = 0;
 
     $('#read').click(function() {
-        $.getJSON('/viewNpcs?designDoc=states&view=docNpcs', function(json) {
+        $.getJSON('/viewNpcsBulk?designDoc=states&view=docNpcs', function(json) {
             $('#debug').empty();
             data = [];
             for (var i = 0; i < json.length; i++) {
@@ -67,9 +68,79 @@ $(document).ready(function() {
     }
 });
 
+define(['Route', 'nameController', 'queryController'], function (Route, nameController, queryController) {
+
+    var findRoutes = (function ($routeProvider) {
+        'use strict';
+        $routeProvider.when('/databaseName', {
+            templateUrl: 'templates/DatabaseNames.html',
+            controller: nameController,
+            resolve: {
+                databaseName: nameController.databaseName,
+                allDbs: nameController.allDbs
+            }
+        }).when('/deleteDb', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.delete
+            }
+        }).when('/createDb', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.create
+            }
+        }).when('/insertNpcsBulk', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.insertNpcsBulk
+            }
+        }).when('/insertNpcsOneDoc', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.insertNpcsOneDoc
+            }
+        }).when('/insertDesignDoc', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.insertDesignDoc
+            }
+        }).when('/readOne', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.readOne
+            }
+        }).when('/viewNpcsBulk', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.viewNpcsBulk
+            }
+        }).when('/viewNpcsOneDoc', {
+            templateUrl: 'templates/QueryView.html',
+            controller: queryController,
+            resolve: {
+                result: queryController.viewNpcsOneDoc
+            }
+        }).otherwise({
+            redirectTo: '/'
+        });
+    });
+
+    return findRoutes;
+
+});
+
+///// OLD CODE /////
+/*
 //var myModule = angular.module('myModule', ['ngRoute']);
 
-/*
+/!*
 function runQuery(query, $q) {
     'use strict';
     var defers = $q.defer();
@@ -84,7 +155,7 @@ function runQuery(query, $q) {
         });
     });
     return defers.promise;
-}*/
+}*!/
 
 
 
@@ -188,3 +259,4 @@ myModule.config(function($routeProvider) {
         redirectTo: '/'
     });
 });
+*/

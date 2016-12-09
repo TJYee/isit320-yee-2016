@@ -84,8 +84,8 @@ function views(router, nano, dbName) {
     });
 
     // NPC Views
-    router.get('/viewNpcs', function(request, response) {
-        console.log('viewNpcs called.');
+    router.get('/viewNpcsBulk', function(request, response) {
+        console.log('viewNpcsBulk called.');
         var doc = request.query.designDoc;
         var view = request.query.view;
         var nanoDb = nano.db.use(dbName);

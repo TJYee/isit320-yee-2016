@@ -118,7 +118,7 @@ function designDocs(router, nano, dbName) {
         });
     }
 
-    router.get('/designDoc', function(request, response) {
+    router.get('/insertDesignDoc', function(request, response) {
 
         console.log('Design Doc Called');
 

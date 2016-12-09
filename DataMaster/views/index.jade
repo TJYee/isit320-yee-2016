@@ -6,29 +6,52 @@ block content
         | Welcome to #{title}. Click the options below, and if necessary
         | scroll down to see the results.
 
-    ul
-        li
-            a(href='/#/databaseName') Get current Database Name and all names
-        li
-            a(href='/#/createDb') CreateDb
-        li
-            a(href='/#/insertDesignDoc') Insert Design Doc
-        li
-            a(href='/#/deleteDb') DeleteDb
-    ul
-        li
-            a(href='/#/insertNpcsBulk') Insert Npcs in Bulk
-        li
-            a(href='/#/insertNpcsOneDoc') Insert Npcs as one document
-        li
-            a(href='/#/viewNpcs') View Npc data
-        li
-            a(href='/#/viewNpcsValue') View Npc value
-        li
-            a(href='/#/viewNpcsQA') View Npc Q&A
+    //ul
+    //    li
+    //        a(href='databaseName') Get current Database Name and all names
+    //    li
+    //        a(href='createDb') CreateDb
+    //    li
+    //        a(href='insertDesignDoc') Insert Design Doc
+    //    li
+    //        a(href='deleteDb') DeleteDb
+    //ul
+    //    li
+    //        a(href='insertNpcsBulk') Insert Npcs in Bulk
+    //    li
+    //        a(href='insertNpcsOneDoc') Insert Npcs as one document
+    //    li
+    //        a(href='viewNpcs') View Npc data
+    //    li
+    //        a(href='viewNpcsValue') View Npc value
+    //    li
+    //        a(href='viewNpcsQA') View Npc Q&A
 
-    div
-        a(href='')#read Read One Doc
+    div#databaseOptions
+        ul
+            li
+                a(href='databaseName') Get current Database Name
+            li
+                a(href='createDb') CreateDb
+            li
+                a(href="insertDesignDoc") Insert Design Doc
+            li
+                a(href='deleteDb') DeleteDb
+        ul
+            li
+                a(href='insertNpcsBulk') Insert NPCs Bulk
+            li
+                a(href='insertNpcsOneDoc') Insert NPCs as one document
+        ul
+            li
+                a(href="readOne") Read One Doc
+            li
+                a(href="viewNpcsBulk") View NPCs Bulk documents
+            li
+                a(href="viewNpcsOneDoc") View NPCs One document
+
+    //div
+    //    a(href='')#read Read One Doc
     div
         input#index(type="text", value=)
     div
@@ -51,7 +74,7 @@ block content
 
 
     div
-        pre#debug {{debug}}
+        pre#debug
         pre#docs
 
     div

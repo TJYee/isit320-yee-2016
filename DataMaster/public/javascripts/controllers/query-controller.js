@@ -1,9 +1,12 @@
-define(function() {
-    var queryController = function ($scope, result) {
+define(['runQuery'], function (runQuery) {
+    var queryController = function (query, result) {
         'use strict';
+        var $scope = $('#debug');
+        var docs = $('#docs');
+        docs.empty();
         if (result.ok) {
             $scope.result = 'It worked';
-        } else if (result.requestFailed) {
+        } else if (result.error) {
             $scope.result = JSON.stringify(result.requestFailed, null, 4);
         } else {
             $scope.result = result;
@@ -33,19 +36,19 @@ define(function() {
     };
 
     //Npcs code
-    queryController.NpcsBulk = function($q) {
+    queryController.insertNpcsBulk = function($q) {
         'use strict';
         return runQuery('/insertBulk?fileName=Npcs.json', $q);
     };
 
-    queryController.NpcsOneDoc = function($q) {
+    queryController.insertNpcsOneDoc = function($q) {
         'use strict';
         return runQuery('/insertFile?fileName=Npcs.json&id=oneDoc', $q);
     };
 
-    queryController.viewNpcs = function($q) {
+    queryController.viewNpcsBulk = function($q) {
         'use strict';
-        return runQuery('/viewNpcs?designDoc=states&view=docNpcs', $q);
+        return runQuery('/viewNpcsBulk?designDoc=states&view=docNpcs', $q);
     };
 
     queryController.viewNpcsValue = function($q) {
@@ -58,9 +61,9 @@ define(function() {
         return runQuery('/viewNpcsQA?designDoc=states&view=docNpcsQA', $q);
     };
     //End of Npcs code
-    queryController.design = function($q) {
+    queryController.insertDesignDoc = function($q) {
         'use strict';
-        return runQuery('/designDoc', $q);
+        return runQuery('/insertDesignDoc', $q);
     };
 
     queryController.readOne = function($q) {
