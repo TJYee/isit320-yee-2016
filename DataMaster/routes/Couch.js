@@ -6,13 +6,9 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var setServer = require('./set-server');
 
-var servers = ['http://192.168.2.19:5984', 'http://192.168.0.245:5984'];
-var serverIndex = 1;
-var nano = require('nano')(servers[serverIndex]);
-
-var dbName = 'game_data_yee';
-var docName = 'phones';
+var nano = require('nano')(setServer.serverUrl);
 
 var insert = require('./CouchInsert')(router, nano, dbName);
 var views = require('./CouchViews')(router, nano, dbName);

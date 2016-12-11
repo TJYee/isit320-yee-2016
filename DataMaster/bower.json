@@ -18,6 +18,7 @@
   "dependencies": {
     "jquery": "^3.1.1",
     "elf-json-to-table": "elf-json-to-html-table#^0.0.5",
-    "requirejs": "^2.3.2"
+    "requirejs": "^2.3.2",
+    "bootstrap": "^3.3.7"
   }
 }

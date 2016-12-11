@@ -3,7 +3,8 @@ html(data-ng-app='myModule')
     head
         title= title
         link(rel='stylesheet', href='/stylesheets/style.css')
-        script(src='/components/requirejs/require.js' data-main='/javascripts/main')
+        link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.css')
+        script(src="/components/requirejs/require.js", data-main="/javascripts/main")
 
     body
         block content
