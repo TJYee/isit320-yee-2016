@@ -8,6 +8,7 @@ requirejs.config({
     baseUrl: '.',
     paths: {
         'jquery': '/components/jquery/dist/jquery',
+        'jsonToHtml': '/components/elf-json-to-table/json-to-table',
         'control': '/javascripts/Control',
         'nameController': '/javascripts/controllers/name-controller',
         'queryController': '/javascripts/controllers/query-controller',
