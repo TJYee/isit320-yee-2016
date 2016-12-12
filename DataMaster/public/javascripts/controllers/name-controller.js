@@ -1,24 +1,26 @@
-define(['runQuery'], function(runQuery) {
+define(['runQuery', 'utility', 'jsonToHtml'], function(runQuery, utility, jsonToHtml) {
     'use strict';
-    var nameController = function(query, result) {
-        var $scope = $('#debug');
-        var docs = $('#docs');
-        if (result.ok) {
-            $scope.result = 'It worked';
-        } else if (result.requestFailed) {
-            $scope.result = JSON.stringify(result.requestFailed, null, 4);
-        } else {
-            $scope.result = result;
+
+    var nameController = function(query, data) {
+        if (query.requestFailed) {
+            utility.failed(query.requestFailed);
+            return;
         }
 
-        $scope.docs = result.docs;
-    };
+        var debug = $('#debug');
+        var docs = $('#docs');
+        var displayData = JSON.stringify(data, null, 5);
+        if (query === '/databaseName') {
+            utility.clearAll();
+            debug.html(displayData);
+        } else {
+            docs.html('allDatabases: ' + displayData);
+            var jsonHtmlTable = jsonToHtml(JSON.parse(displayData), 'jsonTable',
+                'table table-bordered table-striped', 'Download');
+            $('#myTable').html(jsonHtmlTable);
 
-    /*var nameController = myModule.controller('NameController', function($scope, databaseName, allDbs) {
-        'use strict';
-        $scope.databaseName = databaseName;
-        $scope.allDbs = allDbs;
-    });*/
+        }
+    };
 
     nameController.databaseName = function($q) {
         return runQuery('/databaseName', $q);

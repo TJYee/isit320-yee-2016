@@ -5,8 +5,10 @@ requirejs.config({
         'bootstrap': '/components/bootstrap/dist/js/bootstrap.min',
         'jsonToHtml': '/components/elf-json-to-table/json-to-table',
         'control': '/javascripts/Control',
-        'nameController': '/javascripts/controllers/name-controller',
         'queryController': '/javascripts/controllers/query-controller',
+        'nameController': '/javascripts/controllers/name-controller',
+        'insertController': '/javascripts/controllers/insert-controller',
+        'bulkController': '/javascripts/controllers/bulk-controller',
         'Route': '/javascripts/route',
         'runQuery': '/javascripts/run-query',
         'utility': '/javascripts/utility'

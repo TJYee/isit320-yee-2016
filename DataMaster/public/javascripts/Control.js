@@ -67,69 +67,77 @@ $(document).ready(function() {
     }
 });
 
-define(['Route', 'nameController', 'queryController'], function(Route, nameController, queryController) {
-    'use strict';
-    var findRoutes = (function($routeProvider) {
-        $routeProvider.when('/databaseName', {
-            templateUrl: '/display-default',
-            controller: nameController,
-            resolve: {
-                databaseName: nameController.databaseName,
-                allDbs: nameController.allDbs
-            }
-        }).when('/deleteDb', {
-            templateUrl: 'display-default',
-            controller: queryController,
-            resolve: {
-                result: queryController.delete
-            }
-        }).when('/createDb', {
-            templateUrl: 'templates/QueryView.html',
-            controller: queryController,
-            resolve: {
-                result: queryController.create
-            }
-        }).when('/insertNpcsBulk', {
-            templateUrl: 'templates/QueryView.html',
-            controller: queryController,
-            resolve: {
-                result: queryController.insertNpcsBulk
-            }
-        }).when('/insertNpcsOneDoc', {
-            templateUrl: 'templates/QueryView.html',
-            controller: queryController,
-            resolve: {
-                result: queryController.insertNpcsOneDoc
-            }
-        }).when('/insertDesignDoc', {
-            templateUrl: 'templates/QueryView.html',
-            controller: queryController,
-            resolve: {
-                result: queryController.insertDesignDoc
-            }
-        }).when('/readOne', {
-            templateUrl: 'templates/QueryView.html',
-            controller: queryController,
-            resolve: {
-                result: queryController.readOne
-            }
-        }).when('/viewNpcsBulk', {
-            templateUrl: 'templates/QueryView.html',
-            controller: queryController,
-            resolve: {
-                result: queryController.viewNpcsBulk
-            }
-        }).when('/viewNpcsOneDoc', {
-            templateUrl: 'templates/QueryView.html',
-            controller: queryController,
-            resolve: {
-                result: queryController.viewNpcsOneDoc
-            }
-        }).otherwise({
-            redirectTo: '/home'
+define(['Route', 'queryController', 'nameController', 'insertController', 'bulkController'],
+    function(Route, queryController, nameController, insertController, bulkController) {
+        'use strict';
+        var findRoutes = (function($routeProvider) {
+            $routeProvider.when('/home', {
+                templateUrl: '/home',
+                controller: queryController,
+                resolve: {
+                    init: queryController.init
+                }
+            }).when('/databaseName', {
+                templateUrl: '/display-default',
+                controller: nameController,
+                resolve: {
+                    databaseName: nameController.databaseName,
+                    allDbs: nameController.allDbs
+                }
+            }).when('/deleteDb', {
+                templateUrl: '/display-default',
+                controller: queryController,
+                resolve: {
+                    result: queryController.delete
+                }
+            }).when('/createDb', {
+                templateUrl: '/display-default',
+                controller: queryController,
+                resolve: {
+                    result: queryController.create
+                }
+            }).when('/insertNpcsBulk', {
+                templateUrl: '/display-default',
+                controller: bulkController,
+                resolve: {
+                    result: bulkController.insertNpcsBulk
+                }
+            }).when('/insertNpcsOneDoc', {
+                templateUrl: '/display-default',
+                controller: insertController,
+                resolve: {
+                    result: insertController.insertNpcsOneDoc
+                }
+            }).when('/insertDesignDoc', {
+                templateUrl: '/display-default',
+                controller: insertController,
+                resolve: {
+                    result: insertController.insertDesignDoc
+                }
+            }).when('/readOne', {
+                templateUrl: '/display-default',
+                controller: queryController,
+                resolve: {
+                    result: queryController.readOne
+                }
+            }).when('/viewNpcsBulk', {
+                templateUrl: '/row-display-bulk',
+                controller: bulkController,
+                resolve: {
+                    result: bulkController.viewNpcsBulk,
+                    init: bulkController.init
+                }
+            }).when('/viewNpcsOneDoc', {
+                templateUrl: '/display-default',
+                controller: queryController,
+                resolve: {
+                    result: queryController.viewNpcsOneDoc
+                }
+            }).otherwise({
+                redirectTo: '/display-default'
+            });
         });
+
+        return findRoutes;
+
     });
-
-    return findRoutes;
-
-});

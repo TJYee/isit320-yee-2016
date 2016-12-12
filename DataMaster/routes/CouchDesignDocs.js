@@ -1,21 +1,6 @@
 function designDocs(router, nano, dbName) {
     'use strict';
 
-    var firstAndLast = function(doc) {
-        if (doc.firstName && doc.lastName) {
-            var name = doc.firstName + ' ' + doc.lastName;
-            emit(doc._id, name);
-        }
-    };
-
-    var lastOnly = function(doc) {
-
-        if (doc.firstName && doc.lastName) {
-            var name = doc.lastName;
-            emit(doc._id, name);
-        }
-    };
-
     var docIdDoc = function(doc) {
         emit(doc._id, doc);
     };
@@ -72,36 +57,11 @@ function designDocs(router, nano, dbName) {
         });
     };
 
-    /*
-     var viewStatesDoc = function(doc) {
-     if (doc._id === 'statesDoc') {
-     var data = [];
-     doc.docs.forEach(function(state) {
-     emit({
-     'name' : state.name,
-     'capital' : state.capital
-     }, 1);
-     });
-     emit(doc.docs[0].abbreviation, data);
-     }
-     }
-
-     var docStatesHtml = function(doc) {
-     start({
-     'headers' : {
-     'Content-Type' : 'text/html'
-     }
-     });
-     send('<html><body><table>');
-     send('<tr><th>ID</th><th>Key</th><th>Value</th></tr>')
-     while (row = viewStatesDoc()) {
-     send(''.concat('<tr>', '<td>' + toJSON(row.name) + '</td>', '<td>'
-     + toJSON(row.capital) + '</td>', '<td>' + toJSON(row.value)
-     + '</td>', '</tr>'));
-     }
-     send('</table></body></html>');
-
-     }*/
+    var npcsBulk = function(doc) {
+        if (doc._id !== 'npcsDoc') {
+            emit(doc._id, doc);
+        }
+    };
 
     function createDesignDocument(designDocument, designName, response) {
         var nanoDb = nano.db.use(dbName);
@@ -131,12 +91,6 @@ function designDocs(router, nano, dbName) {
                 'docIdDoc': {
                     'map': docIdDoc
                 },
-                'docStateCapital': {
-                    'map': docStateCapital
-                },
-                'docStatesDoc': {
-                    'map': docStatesDoc
-                },
                 'docNpcs': {
                     'map': docNpcs
                 },
@@ -145,6 +99,9 @@ function designDocs(router, nano, dbName) {
                 },
                 'docNpcsQA': {
                     'map': docNpcsQA
+                },
+                'npcsBulk': {
+                    'map': npcsBulk
                 }
                 /*,
                  'viewStatesDoc' : {

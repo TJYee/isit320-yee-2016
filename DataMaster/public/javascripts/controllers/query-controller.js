@@ -1,19 +1,45 @@
-define(['runQuery'], function(runQuery) {
+define(['runQuery', 'utility'], function(runQuery, utility) {
     'use strict';
 
     var queryController = function(query, result) {
-        var $scope = $('#debug');
-        var docs = $('#docs');
-        docs.empty();
-        if (result.ok) {
-            $scope.result = 'It worked';
-        } else if (result.error) {
-            $scope.result = JSON.stringify(result.requestFailed, null, 4);
-        } else {
-            $scope.result = result;
+        utility.clearAll();
+        if (query.requestFailed) {
+            utility.failed(query.requestFailed);
+            return;
         }
+        var debug = $('#debug');
+        var docs = $('#docs');
+        if (result.ok) {
+            var text = 'It worked';
+            if (result.data) {
+                text += '\n' + JSON.stringify(result.data, null, 4);
+            }
+            debug.html(text);
+        } else if (result.error) {
+            debug.html(result.error + ': ' + result.message);
+        } else {
+            debug.html(result);
+        }
+        docs.html(JSON.stringify(result.docs, null, 4));
+    };
 
-        $scope.docs = result.docs;
+    function init() {
+        $('#target').submit(function(event) {
+            event.preventDefault();
+            var userFormData = $(this).serialize();
+            $('#formResults').html(userFormData);
+            $.getJSON('/user-form?' + userFormData, function(result) {
+                $('#debug').html(JSON.stringify(result, null, 4));
+            });
+        });
+
+        $('#help').click(function() {
+            $('#charlie').html('<strong>Help Text</strong>: Select some controls and press the Submit button.');
+        });
+    }
+
+    queryController.init = function($q) {
+        init();
     };
 
     queryController.delete = function($q) {
@@ -37,14 +63,6 @@ define(['runQuery'], function(runQuery) {
         return runQuery('/insertBulk?fileName=Npcs.json', $q);
     };
 
-    queryController.insertNpcsOneDoc = function($q) {
-        return runQuery('/insertFile?fileName=Npcs.json&id=oneDoc', $q);
-    };
-
-    queryController.viewNpcsBulk = function($q) {
-        return runQuery('/viewNpcsBulk?designDoc=states&view=docNpcs', $q);
-    };
-
     queryController.viewNpcsValue = function($q) {
         return runQuery('/viewNpcsValue?designDoc=states&view=docNpcsValue', $q);
     };
@@ -53,9 +71,6 @@ define(['runQuery'], function(runQuery) {
         return runQuery('/viewNpcsQA?designDoc=states&view=docNpcsQA', $q);
     };
     //End of Npcs code
-    queryController.insertDesignDoc = function($q) {
-        return runQuery('/insertDesignDoc', $q);
-    };
 
     queryController.readOne = function($q) {
         return runQuery('/read?designDoc=states&view=viewOneDoc', $q);

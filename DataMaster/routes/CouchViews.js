@@ -85,17 +85,21 @@ function views(router, nano, dbName) {
 
     // NPC Views
     router.get('/viewNpcsBulk', function(request, response) {
-        console.log('viewNpcsBulk called.');
-        var doc = request.query.designDoc;
-        var view = request.query.view;
+        console.log('/viewNpcsBulk called', request.query);
         var nanoDb = nano.db.use(dbName);
-        nanoDb.view(doc, view, function(err, body) {
+        nanoDb.view(request.query.designDoc, request.query.view, function(err, body) {
             if (!err) {
-                console.log(body.rows);
-                response.send(body.rows);
+                console.log(body);
+                var result = {
+                    docs: []
+                };
+                body.rows.forEach(function(doc) {
+                    result.docs.push(doc.value);
+                });
+                response.send(result);
             } else {
                 console.log(err);
-                response.status(err.statusCode).send(err);
+                response.send(500, err);
             }
         });
     });
