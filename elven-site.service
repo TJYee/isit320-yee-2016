@@ -1,0 +1,12 @@
+[Service]
+ExecStart=/usr/bin/node /home/ubuntu/bin/three-floor/bin/www
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=elven-site
+User=bcuser
+Group=bcuser
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
