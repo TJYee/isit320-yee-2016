@@ -4,8 +4,8 @@ Restart=always
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=elven-site
-User=bcuser
-Group=bcuser
+User=ubuntu
+Group=ubuntu
 Environment=NODE_ENV=production
 
 [Install]
