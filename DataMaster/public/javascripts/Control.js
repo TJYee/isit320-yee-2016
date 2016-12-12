@@ -71,14 +71,14 @@ define(['Route', 'nameController', 'queryController'], function(Route, nameContr
     'use strict';
     var findRoutes = (function($routeProvider) {
         $routeProvider.when('/databaseName', {
-            templateUrl: '/index',
+            templateUrl: '/display-default',
             controller: nameController,
             resolve: {
                 databaseName: nameController.databaseName,
                 allDbs: nameController.allDbs
             }
         }).when('/deleteDb', {
-            templateUrl: 'templates/QueryView.html',
+            templateUrl: 'display-default',
             controller: queryController,
             resolve: {
                 result: queryController.delete
@@ -126,7 +126,7 @@ define(['Route', 'nameController', 'queryController'], function(Route, nameContr
                 result: queryController.viewNpcsOneDoc
             }
         }).otherwise({
-            redirectTo: '/index'
+            redirectTo: '/home'
         });
     });
 

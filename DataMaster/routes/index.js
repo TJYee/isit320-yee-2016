@@ -4,7 +4,7 @@ var router = require('./Couch');
 router.get('/', function(req, res) {
     'use strict';
     res.render('index', {
-        title: 'Couch Views II'
+        title: 'DataMaster Refactor'
     });
 });
 

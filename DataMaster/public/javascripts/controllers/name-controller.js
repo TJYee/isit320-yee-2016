@@ -1,6 +1,6 @@
 define(['runQuery'], function(runQuery) {
     'use strict';
-    var nameController = function(query, data) {
+    var nameController = function(query, result) {
         var $scope = $('#debug');
         var docs = $('#docs');
         if (result.ok) {
