@@ -7,8 +7,9 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var setServer = require('./set-server');
-
 var nano = require('nano')(setServer.serverUrl);
+
+var dbName = 'game_data_yee';
 
 var insert = require('./CouchInsert')(router, nano, dbName);
 var views = require('./CouchViews')(router, nano, dbName);
