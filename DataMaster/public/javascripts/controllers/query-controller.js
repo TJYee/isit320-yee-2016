@@ -1,7 +1,7 @@
-define(['runQuery'], function (runQuery) {
+define(['runQuery'], function(runQuery) {
     'use strict';
 
-    var queryController = function (query, result) {
+    var queryController = function(query, result) {
         var $scope = $('#debug');
         var docs = $('#docs');
         docs.empty();

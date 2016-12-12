@@ -16,9 +16,9 @@ define(['runQuery'], function(runQuery) {
         var elfContent = $('#elfContent');
         if (elfContent.length) {
             elfContent.load(control.templateUrl, function(response, status, xhr) {
-                if (status == "error") {
-                    var msg = "Sorry but there was an error: ";
-                    $("#debug").html(msg + xhr.status + " " + xhr.statusText);
+                if (status == 'error') {
+                    var msg = 'Sorry but there was an error: ';
+                    $('#debug').html(msg + xhr.status + ' ' + xhr.statusText);
                 } else {
                     that.resolveRequest(control);
                 }

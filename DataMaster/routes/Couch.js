@@ -15,7 +15,7 @@ var insert = require('./CouchInsert')(router, nano, dbName);
 var views = require('./CouchViews')(router, nano, dbName);
 var designDocs = require('./CouchDesignDocs')(router, nano, dbName);
 var attach = require('./CouchAttach')(router, nano, dbName);
-var couchBulk = require('./CouchBulk')(router, dbName, servers[serverIndex]);
+var couchBulk = require('./CouchBulk')(router, dbName, setServer.serverUrl);
 
 router.get('/databaseName', function(request, response) {
     'use strict';

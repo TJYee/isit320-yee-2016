@@ -1,9 +1,3 @@
-/**
- * @author: Charlie Calvert
- * @name: main.js
- * Created on 10/10/16.
- */
-
 requirejs.config({
     baseUrl: '.',
     paths: {
@@ -16,7 +10,6 @@ requirejs.config({
         'runQuery': '/javascripts/run-query'
     }
 });
-
 
 requirejs(['jquery'], function($) {
     'use strict';
@@ -32,7 +25,7 @@ requirejs(['jquery'], function($) {
              * Call findRoutes and pass in Routes object
              *   findRoutes calls route.when for each possible path
              */
-            $('#databaseOptions ul li a').click(function (event) {
+            $('#databaseOptions ul li a').click(function(event) {
                 event.preventDefault();
                 route.setRoute(event.target.pathname);
                 control(route);

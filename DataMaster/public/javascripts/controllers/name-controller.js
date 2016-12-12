@@ -1,7 +1,6 @@
-define(['runQuery'], function (runQuery) {
-    var nameController = function (query, data) {
-        'use strict';
-
+define(['runQuery'], function(runQuery) {
+    'use strict';
+    var nameController = function(query, data) {
         var $scope = $('#debug');
         var docs = $('#docs');
         if (result.ok) {
@@ -15,7 +14,6 @@ define(['runQuery'], function (runQuery) {
         $scope.docs = result.docs;
     };
 
-
     /*var nameController = myModule.controller('NameController', function($scope, databaseName, allDbs) {
         'use strict';
         $scope.databaseName = databaseName;
@@ -23,12 +21,10 @@ define(['runQuery'], function (runQuery) {
     });*/
 
     nameController.databaseName = function($q) {
-        'use strict';
         return runQuery('/databaseName', $q);
     };
 
     nameController.allDbs = function($q) {
-        'use strict';
         return runQuery('/listDb', $q);
     };
 

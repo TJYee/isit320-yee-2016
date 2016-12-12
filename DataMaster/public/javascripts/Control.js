@@ -2,7 +2,6 @@
  * @name Control
  */
 
-
 $(document).ready(function() {
     'use strict';
 
@@ -68,9 +67,9 @@ $(document).ready(function() {
     }
 });
 
-define(['Route', 'nameController', 'queryController'], function (Route, nameController, queryController) {
+define(['Route', 'nameController', 'queryController'], function(Route, nameController, queryController) {
     'use strict';
-    var findRoutes = (function ($routeProvider) {
+    var findRoutes = (function($routeProvider) {
         $routeProvider.when('/databaseName', {
             templateUrl: '/index',
             controller: nameController,
