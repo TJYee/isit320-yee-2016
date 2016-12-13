@@ -4,9 +4,7 @@
 
 $(document).ready(function() {
     'use strict';
-    var path = require("path");
-    console.log(". = %s", path.resolve("."));
-    console.log("__dirname = %s", path.resolve(__dirname));
+
     var data = [];
     var index = 0;
 
@@ -72,6 +70,9 @@ $(document).ready(function() {
 define(['Route', 'queryController', 'nameController', 'insertController', 'bulkController'],
     function(Route, queryController, nameController, insertController, bulkController) {
         'use strict';
+        var path = require("path");
+        console.log(". = %s", path.resolve("."));
+        console.log("__dirname = %s", path.resolve(__dirname));
         var findRoutes = (function($routeProvider) {
             $routeProvider.when('/home', {
                 templateUrl: '/home',
