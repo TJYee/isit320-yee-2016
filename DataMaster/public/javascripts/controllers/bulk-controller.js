@@ -36,7 +36,6 @@ define(['runQuery', 'jsonToHtml'], function(runQuery, jsonToHtml) {
         docElement.empty();
         if (query.requestFailed) {
             console.log('failed');
-            console.log(query);
             docElement.html(JSON.stringify(query.requestFailed, null, 4));
         } else {
             console.log(JSON.stringify(result));
@@ -65,7 +64,6 @@ define(['runQuery', 'jsonToHtml'], function(runQuery, jsonToHtml) {
     };
 
     bulkController.insertNpcsBulk = function($q) {
-        console.log('controller');
         return runQuery('/insertBulk?fileName=Npcs.json', $q);
     };
 
