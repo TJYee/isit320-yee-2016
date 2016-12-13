@@ -42,7 +42,7 @@ function couchBulk(router, dbName, server) {
     router.get('/insertBulk', function(request, response) {
         console.log('bulk data');
         //var fileName = request.query.fileName;
-        var fileName = '~/bin/datamasters/Npcs.json'
+        var fileName = '~/bin/datamasters/Npcs.json';
         var record = fs.readFile(fileName, 'utf8', function(err, json) {
             console.log('Reading file');
             console.log(json);
