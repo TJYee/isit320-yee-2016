@@ -65,7 +65,7 @@ define(['runQuery', 'jsonToHtml'], function(runQuery, jsonToHtml) {
     };
 
     bulkController.insertNpcsBulk = function($q) {
-        console.log('controller' + _path);
+        console.log('controller');
         return runQuery('/insertBulk?fileName=Npcs.json', $q);
     };
 
