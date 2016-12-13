@@ -7,7 +7,7 @@ function couchBulk(router, dbName, server) {
     'use strict';
     var fs = require('fs');
     var request = require('request');
-
+    console.log(require('../Npcs.json'));
     var putBulkData = function(bulkData, response) {
         var req = {
             'method': 'POST',
