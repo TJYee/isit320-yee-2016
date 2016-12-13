@@ -40,12 +40,13 @@ function couchBulk(router, dbName, server) {
     };
 
     router.get('/insertBulk', function(request, response) {
-
         console.log('bulk data');
+        var fileName;
         if(request.query.filename === 'Npcs.json'){
-            console.log('yes');
+
+        }else{
+            fileName = request.query.fileName;
         }
-        var fileName = request.query.fileName;
         var record = fs.readFile(fileName, 'utf8', function(err, json) {
             console.log('Reading file');
             console.log(json);
