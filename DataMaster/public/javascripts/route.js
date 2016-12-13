@@ -1,4 +1,8 @@
-define(['runQuery'], function(runQuery) {
+/**
+ * Created by charlie on 10/31/16.
+ */
+
+define(['runQuery'], function (runQuery) {
     'use strict';
 
     var that;
@@ -8,29 +12,19 @@ define(['runQuery'], function(runQuery) {
         that = this;
     }
 
-    Route.prototype.setRoute = function(routeInit) {
+    Route.prototype.setRoute = function (routeInit) {
         this.route = routeInit;
     };
 
     function root(control) {
-        var elfContent = $('#elfContent');
-        if (elfContent.length) {
-            elfContent.load(control.templateUrl, function(response, status, xhr) {
-                if (status == 'error') {
-                    var msg = 'Sorry but there was an error: ';
-                    $('#debug').html(msg + xhr.status + ' ' + xhr.statusText);
-                } else {
-                    that.resolveRequest(control);
-                }
-            });
-        } else {
-            throw ('Element with an id of elfcontent not found in HTML');
-        }
+        $('#elfContent').load(control.templateUrl, function (result) {
+            that.resolveRequest(control);
+        });
     }
 
-    Route.prototype.resolveRequest = function(control) {
+    Route.prototype.resolveRequest = function (control) {
         var resolver = {
-            getController: function() {
+            getController: function () {
                 return control.controller;
             }
         };
@@ -44,7 +38,7 @@ define(['runQuery'], function(runQuery) {
         }
     };
 
-    Route.prototype.when = function(route, control) {
+    Route.prototype.when = function (route, control) {
         if (route === this.route) {
             if (control.templateUrl) {
                 root(control);
@@ -55,7 +49,7 @@ define(['runQuery'], function(runQuery) {
         return this;
     };
 
-    Route.prototype.otherwise = function() {
+    Route.prototype.otherwise = function () {
         // DO NOTHING FOR NOW
         console.log('otherwise');
     };

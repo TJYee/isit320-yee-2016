@@ -13,7 +13,9 @@ define(['runQuery', 'jsonToHtml', 'utility'], function(runQuery, jsonToHtml, uti
 
         if (query.requestFailed) {
             docElement.html(JSON.stringify(query.requestFailed, null, 4));
-        } else {
+        } if(result.failed){
+            debug.html(result.error + ': ' + result.message);
+        }else {
             var gameDocs = result.data;
 
             docElement.html(JSON.stringify(gameDocs, null, 4));

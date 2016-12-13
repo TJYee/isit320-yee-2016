@@ -40,7 +40,7 @@ function insert(router, nano, dbName) {
                 });
             } else {
                 console.log(err);
-                response.send(err);
+                response.status(err.statusCode).send(err);
                 return;
             }
         });

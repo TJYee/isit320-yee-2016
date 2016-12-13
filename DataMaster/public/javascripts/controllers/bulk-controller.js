@@ -35,9 +35,11 @@ define(['runQuery', 'jsonToHtml'], function(runQuery, jsonToHtml) {
         var docElement = $('#docs');
         docElement.empty();
         if (query.requestFailed) {
+            console.log('failed');
             docElement.html(JSON.stringify(query.requestFailed, null, 4));
         } else {
-            gameDocs = result.docs;
+            console.log(JSON.stringify(result));
+            gameDocs = result;
             displayGameCode(gameDocs[index]);
 
             docElement.html(JSON.stringify(gameDocs, null, 4));

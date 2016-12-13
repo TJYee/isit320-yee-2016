@@ -18,7 +18,6 @@ define(['runQuery', 'utility', 'jsonToHtml'], function(runQuery, utility, jsonTo
             var jsonHtmlTable = jsonToHtml(JSON.parse(displayData), 'jsonTable',
                 'table table-bordered table-striped', 'Download');
             $('#myTable').html(jsonHtmlTable);
-
         }
     };
 

@@ -1,7 +1,7 @@
 var servers = ['http://127.0.0.1:5984',
     'http://192.168.2.19:5984',
-    'http://10.0.0.9:5984',
-    'http://35.165.139.71:5984'
+    'http://192.168.0.245:5984',
+	'http://35.165.139.71:5984'
 ];
 var serverIndex = 3;
 var serverUrl = servers[serverIndex];
