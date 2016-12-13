@@ -1,0 +1,12 @@
+[Service]
+ExecStart=/usr/bin/node /home/ubuntu/bin/datahunter/bin/www
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=elven-site
+User=ubuntu
+Group=ubuntu
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
