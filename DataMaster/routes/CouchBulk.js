@@ -7,7 +7,7 @@ function couchBulk(router, dbName, server) {
     'use strict';
     var fs = require('fs');
     var request = require('request');
-    console.log(require('../Npcs.json'));
+
     var putBulkData = function(bulkData, response) {
         var req = {
             'method': 'POST',
@@ -41,8 +41,7 @@ function couchBulk(router, dbName, server) {
 
     router.get('/insertBulk', function(request, response) {
         console.log('bulk data');
-        var fileName = request.query.fileName;
-        console.log(fileName);
+        var fileName = '../' + request.query.fileName;
         var record = fs.readFile(fileName, 'utf8', function(err, json) {
             console.log('Reading file');
             console.log(json);
